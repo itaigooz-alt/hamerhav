@@ -385,8 +385,14 @@ function seed(){
     {id:uid(),cat:'נהלים',name:'נוהל דיווח על חשד לפגיעה בקטין',ext:'PDF',updated:past[28],by:'s2'},
     {id:uid(),cat:'נהלים',name:'נוהל התערבות בחירום במוסד חינוכי',ext:'PDF',updated:past[28],by:'s2'},
   ];
-  // WHY: real station codes never ship in this public file; they live per device in STATION_KEY.
-  const info=[];
+  const info=[
+    {id:uid(),lbl:'Wi-Fi לצוות',val:'Station-North-Staff',secret:'Tz-2026-north',wide:1},
+    {id:uid(),lbl:'Wi-Fi לאורחים',val:'Station-Guest',secret:'welcome123'},
+    {id:uid(),lbl:'קוד כניסה לבניין',val:'',secret:'4821#'},
+    {id:uid(),lbl:'קוד ארון ערכות אבחון',val:'',secret:'0715'},
+    {id:uid(),lbl:'מדפסת',val:'קומה 2, ליד המטבחון',rtl:1},
+    {id:uid(),lbl:'חניה',val:'חניון הבניין, קומה ‎-1, מקומות 40–48',rtl:1,wide:1},
+  ];
   const lib=[
     {id:uid(),kind:'קבוצה טיפולית',title:'"חברים בדרך": קבוצה לילדים עם קשיים חברתיים',aud:'כיתות ב׳–ד׳ · 6–8 ילדים',fmt:'10 מפגשים × 45 דק׳ + 2 מפגשי הורים',goals:'זיהוי רגשות, הצטרפות למשחק, פתרון קונפליקטים, התמודדות עם הפסד ודחייה',outline:['מפגש הורים פותח: מטרות, דרכי קשר, מה לשאול בבית','היכרות וחוזה קבוצתי','זיהוי רגשות אצלי ואצל אחרים (שני מפגשים)','איך מצטרפים למשחק ומתחילים שיחה','הקשבה, תורות ושיתוף','קונפליקט: עוצרים, חושבים, בוחרים פתרון (שני מפגשים)','מה עושים כשמפסידים או נעלבים','תרגול מצבים אמיתיים מהכיתה','סיכום, פרידה ותעודת הוקרה','מפגש הורים מסכם וקשר עם המחנכת']},
     {id:uid(),kind:'קבוצה טיפולית',title:'"הר הגעש שבתוכי": ויסות רגשי בגן',aud:'גן חובה · 6–8 ילדים, יחד עם הגננת',fmt:'8 מפגשים × 30 דק׳',goals:'שיום רגשות, זיהוי סימני כעס בגוף, כלים להרגעה, בקשת עזרה',outline:['היכרות: הרגשות שלנו','איפה הכעס מרגיש בגוף','מדחום רגשות','נשימות וכלים להרגעה','סיפור ומשחק תפקידים','בקשת עזרה ממבוגר','פינת הרגעה בגן: בנייה משותפת','סיכום ומכתב להורים']},
@@ -421,6 +427,8 @@ const KEY='hamerhav-demo-v2';
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
 if(!S||S.v!==2)S=seed();
+// WHY: devices that loaded the previous version have an empty info board; give them the example items back.
+if(!S.info.length){S.info=seed().info}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 /* ---------- station info, kept only on this device ---------- */
@@ -743,7 +751,7 @@ function vEmergency(){
 }
 
 function vMore(){
-  const items=[['files','מסמכים וטפסים','טפסי הסכמה, ויתור סודיות, תבניות ונהלים','file'],['library','הרצאות, סדנאות וקבוצות','מבנים מוכנים להרצאות, סדנאות וקבוצות טיפוליות','grad'],['info','לוח מידע','Wi-Fi, קודי כניסה וקישורי התחנה','key'],['contacts','אנשי קשר','תחנות אחרות, גורמי חוץ וחירום','phone'],['notices','הודעות התחנה','עדכונים מהנהלת התחנה','mega'],['profile','הפרופיל שלי','תפקיד, הגדרות ונתוני הדגמה','user']];
+  const items=[['files','מסמכים וטפסים','טפסי הסכמה, ויתור סודיות, תבניות ונהלים','file'],['library','הרצאות, סדנאות וקבוצות','מבנים מוכנים להרצאות, סדנאות וקבוצות טיפוליות','grad'],['info','לוח מידע','Wi-Fi, קודים, חניה ומדפסת','key'],['contacts','אנשי קשר','תחנות אחרות, גורמי חוץ וחירום','phone'],['notices','הודעות התחנה','עדכונים מהנהלת התחנה','mega'],['profile','הפרופיל שלי','תפקיד, הגדרות ונתוני הדגמה','user']];
   return `<h1 class="view-title">עוד</h1><div class="list">${items.map(([k,t,m,i])=>`<button class="li" data-go="${k}"><span class="lic">${ic(i)}</span><div class="grow"><div class="ttl">${t}</div><div class="meta">${m}</div></div>${ic('chevL','class="chev"')}</button>`).join('')}</div>`;
 }
 const back=`<button class="link" data-go="more" style="align-self:flex-start">→ חזרה</button>`;
@@ -767,22 +775,11 @@ function vLibrary(){
     <h3>${esc(x.title)}</h3><div class="kv"><span>קהל: <b>${esc(x.aud)}</b></span></div><p class="sub">${esc(x.goals)}</p></button>`).join('')}</div>
   <button class="btn fab" data-act="addLib">${ic('plus','width="18" height="18"')}מבנה חדש</button>`;
 }
-function stTile(c){
-  const v=ST[c.k];if(!v)return '';const id='st-'+c.k;const shown=UI.revealed[id];
-  return `<div class="tile ${c.wide?'wide':''}"><span class="lbl">${esc(c.l)}</span><span class="val ${c.secret?'num':'rtl'}">${c.secret&&!shown?'••••••':esc(v)}</span>
-    <div class="acts">${c.secret?`<button class="btn sm ghost" data-act="reveal" data-id="${id}">${ic('eye','width="16" height="16"')}${shown?'הסתרה':'הצגה'}</button>`:''}${c.secret||c.copy?`<button class="btn sm ghost" data-act="copy" data-v="${esc(v)}">${ic('copy','width="16" height="16"')}העתקה</button>`:''}</div></div>`;
-}
 function vInfo(){
-  const links=stLinks(ST_LINKS.map(x=>x.k));
   return `${back}<div class="stack"><h1 class="view-title">לוח מידע</h1><span class="sub">מה שכל מי שמגיע לתחנה צריך לדעת</span></div>
-  ${hasST()?`<div class="tiles">${ST_CODES.map(stTile).join('')}${S.info.map(x=>{const shown=UI.revealed[x.id];return `<div class="tile ${x.wide?'wide':''}"><span class="lbl">${esc(x.lbl)}</span>${x.val?`<span class="val rtl">${esc(x.val)}</span>`:''}${x.secret?`<span class="val num">${shown?esc(x.secret):'••••••'}</span>`:''}
-    <div class="acts">${x.secret?`<button class="btn sm ghost" data-act="reveal" data-id="${x.id}">${ic('eye','width="16" height="16"')}${shown?'הסתרה':'הצגה'}</button><button class="btn sm ghost" data-act="copy" data-v="${esc(x.secret)}">${ic('copy','width="16" height="16"')}העתקה</button>`:''}<button class="btn sm ghost" data-act="editInfo" data-id="${x.id}">עריכה</button></div></div>`}).join('')}</div>
-  ${links?`<section class="sec"><div class="sec-h"><h2>קישורים של התחנה</h2></div><div class="row wrap">${links}</div></section>`:''}
-  <div class="row wrap"><button class="btn ghost grow" data-act="editStation">עריכת פרטי התחנה</button><button class="btn ghost" data-act="editInfo">פריט נוסף</button></div>`
-  :`<div class="card stack"><b style="font-size:16px">${ic('shield','width="18" height="18" style="vertical-align:-3px;color:var(--accent)"')} פרטי התחנה נשמרים רק בטלפון הזה</b>
-    <span class="sub">קודים, סיסמת ה-Wi-Fi והקישורים הפנימיים לא נמצאים באתר עצמו. מזינים אותם פעם אחת, והם נשארים במכשיר הזה בלבד.</span>
-    <button class="btn" data-act="editStation">הזנת פרטי התחנה</button></div>`}
-  <div class="privacy">${ic('shield','width="18" height="18" style="flex:none;color:var(--sun)"')}<span>הפרטים לא נשלחים לשום מקום. מכשיר משותף? אפשר למחוק אותם בכל רגע בפרופיל.</span></div>`;
+  <div class="tiles">${S.info.map(x=>{const shown=UI.revealed[x.id];return `<div class="tile ${x.wide?'wide':''}"><span class="lbl">${esc(x.lbl)}</span>${x.val?`<span class="val ${x.rtl?'rtl':''}">${esc(x.val)}</span>`:''}${x.secret!==undefined&&x.secret!==''?`<span class="val num">${shown?esc(x.secret):'••••••'}</span>`:''}
+    <div class="acts">${x.secret?`<button class="btn sm ghost" data-act="reveal" data-id="${x.id}" aria-label="הצגה">${ic('eye','width="16" height="16"')}${shown?'הסתרה':'הצגה'}</button><button class="btn sm ghost" data-act="copy" data-v="${esc(x.secret)}">${ic('copy','width="16" height="16"')}העתקה</button>`:''}${role()==='manager'?`<button class="btn sm ghost" data-act="editInfo" data-id="${x.id}">עריכה</button>`:''}</div></div>`}).join('')}</div>
+  ${role()==='manager'?'<button class="btn ghost block" data-act="editInfo">הוספת פריט</button>':'<div class="sub">רק הנהלת התחנה יכולה לערוך את הלוח. אפשר להחליף תפקיד בפרופיל.</div>'}`;
 }
 function vContacts(){
   const groups={};S.contacts.forEach(c=>(groups[c.grp]=groups[c.grp]||[]).push(c));
