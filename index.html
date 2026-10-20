@@ -1,0 +1,950 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>המרחב שפ״ח</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a single phone-width column (max 480px) with a sticky station header, a fixed 5-tab bottom bar and bottom sheets for every form. */
+:root{
+  --bg:#EDF2F0; --surface:#FFFFFF; --surface-2:#F5F8F7; --ink:#13282C; --muted:#5A6D6F; --line:#D7E2DF;
+  --accent:#0D6B66; --accent-ink:#FFFFFF; --accent-soft:#D5ECE7;
+  --sun:#D9952A; --sun-soft:#FBEACB; --rose:#C4513A; --rose-soft:#F7DCD4; --ok:#2E8B57; --ok-soft:#D9F0E2;
+  --c-office:#0D6B66; --c-field:#3B6CB0; --c-home:#7657A8; --c-course:#2C93A3; --c-emergency:#C4513A;
+  --c-vacation:#D9952A; --c-sick:#B4436C; --c-childsick:#D06D93; --c-reserve:#5F7B35; --c-maternity:#9A5BB5;
+  --shadow:0 1px 2px rgba(19,40,44,.06),0 8px 24px rgba(19,40,44,.07);
+  --f-display:"Frank Ruhl Libre","David Libre","Times New Roman",serif;
+  --f-body:"IBM Plex Sans Hebrew","Rubik","Arial Hebrew",Arial,sans-serif;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C181A; --surface:#132326; --surface-2:#182C2F; --ink:#E2EDEB; --muted:#93A8A8; --line:#24393C;
+  --accent:#52B9AE; --accent-ink:#06211E; --accent-soft:#163B37;
+  --sun:#EDB45A; --sun-soft:#3A2D16; --rose:#E77E67; --rose-soft:#3C221C; --ok:#5CC28A; --ok-soft:#173326;
+  --c-office:#52B9AE; --c-field:#6F9BDB; --c-home:#A68BD6; --c-course:#5BC0CF; --c-emergency:#E77E67;
+  --c-vacation:#EDB45A; --c-sick:#DE7AA0; --c-childsick:#EBA0BC; --c-reserve:#9DBB6B; --c-maternity:#C690DC;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0C181A; --surface:#132326; --surface-2:#182C2F; --ink:#E2EDEB; --muted:#93A8A8; --line:#24393C;
+  --accent:#52B9AE; --accent-ink:#06211E; --accent-soft:#163B37;
+  --sun:#EDB45A; --sun-soft:#3A2D16; --rose:#E77E67; --rose-soft:#3C221C; --ok:#5CC28A; --ok-soft:#173326;
+  --c-office:#52B9AE; --c-field:#6F9BDB; --c-home:#A68BD6; --c-course:#5BC0CF; --c-emergency:#E77E67;
+  --c-vacation:#EDB45A; --c-sick:#DE7AA0; --c-childsick:#EBA0BC; --c-reserve:#9DBB6B; --c-maternity:#C690DC;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.num{font-variant-numeric:tabular-nums}
+#app{max-width:480px;margin:0 auto;min-height:100%;position:relative}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;
+  display:flex;align-items:center;gap:12px}
+.brand{display:flex;flex-direction:column;line-height:1.1;flex:1;min-width:0}
+.brand b{font-family:var(--f-display);font-size:22px;font-weight:700;letter-spacing:-.2px}
+.brand span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{position:relative;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center}
+.iconbtn svg{width:20px;height:20px}
+.badge{position:absolute;top:-4px;left:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--rose);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--accent-soft);color:var(--accent);border:0}
+.demo{background:var(--sun-soft);color:var(--ink);font-size:12px;text-align:center;padding:5px 16px;border-bottom:1px solid var(--line)}
+
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:16px calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:22px}
+.view-title{font-family:var(--f-display);font-size:28px;font-weight:700;line-height:1.15}
+.sub{color:var(--muted);font-size:13px}
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.sec-h h2{font-size:17px;font-weight:700}
+.link{background:none;border:0;color:var(--accent);font-weight:600;font-size:13px;padding:4px 0}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.card.raised{box-shadow:var(--shadow);border-color:transparent}
+.stack{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.wrap{flex-wrap:wrap}
+
+/* buttons */
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:600;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--rose-soft);color:var(--rose)}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.btn.block{width:100%}
+.fab{position:fixed;z-index:15;bottom:calc(84px + env(safe-area-inset-bottom,0px));left:max(16px,calc(50% - 224px));
+  border-radius:16px;padding:13px 18px;box-shadow:var(--shadow)}
+
+/* chips & pills */
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.p-open{background:var(--accent-soft);color:var(--accent)}
+.p-taken{background:var(--sun-soft);color:var(--ink)}
+.p-closed{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.p-high{background:var(--rose-soft);color:var(--rose)}
+.p-mid{background:var(--sun-soft);color:var(--ink)}
+.p-low{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+
+/* segmented */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:none;border-radius:10px;padding:8px 6px;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* bottom nav */
+.nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);
+  padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.nav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 10px;font-size:11.5px;font-weight:500;color:var(--muted);position:relative}
+.nav button svg{width:22px;height:22px}
+.nav button[aria-current="page"]{color:var(--accent);font-weight:700}
+.nav button[aria-current="page"]::before{content:"";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--accent)}
+
+/* home */
+.hello{display:flex;flex-direction:column;gap:2px}
+.hello h1{font-family:var(--f-display);font-size:30px;font-weight:700;line-height:1.1}
+.clock-card{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.ring{width:118px;height:118px;position:relative;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .ct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.ring .ct b{font-size:26px;font-weight:700}
+.ring .ct small{font-size:11px;color:var(--muted)}
+.punch{width:100%;border:0;border-radius:14px;padding:14px;font-size:17px;font-weight:700;background:var(--accent);color:var(--accent-ink)}
+.punch.out{background:var(--ink);color:var(--surface)}
+.punch.done{background:var(--ok-soft);color:var(--ok)}
+.qa{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.qa button{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12.5px;font-weight:600;text-align:center;line-height:1.25}
+.qa .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center}
+.qa .ic svg{width:20px;height:20px}
+.agenda-item{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.agenda-item:last-child{border-bottom:0}
+.agenda-item .t{font-weight:700;font-size:14px}
+.agenda-item .t small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.ag-body{border-inline-start:3px solid var(--accent);padding-inline-start:10px;min-width:0}
+.ag-body b{display:block;font-size:14.5px}
+.ag-body span{font-size:12.5px;color:var(--muted)}
+.notice{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.notice:last-child{border-bottom:0}
+.notice .when{font-size:12px;color:var(--muted)}
+
+/* month grid */
+.cal-head{display:flex;align-items:center;justify-content:space-between}
+.cal-head b{font-family:var(--f-display);font-size:20px}
+.cal-nav{display:flex;gap:6px}
+.dow,.month{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dow span{font-size:12px;color:var(--muted);font-weight:600;padding:4px 0}
+.day{aspect-ratio:1/1.05;max-width:100%;border:1px solid transparent;border-radius:10px;background:var(--surface);font-size:14px;font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;padding:0}
+.day.out{visibility:hidden}
+.day.wkend{background:transparent;color:var(--muted)}
+.day.today{border-color:var(--accent);font-weight:700}
+.day[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.day .dots{display:flex;gap:2px;height:6px}
+.day .dots i{width:5px;height:5px;border-radius:50%}
+.day.typed{color:#fff;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.kpi b{display:block;font-size:22px;font-weight:700;line-height:1.2}
+.kpi span{font-size:12px;color:var(--muted)}
+.typechips{display:flex;flex-wrap:wrap;gap:6px}
+
+/* lists */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;background:none;border-inline:0;border-top:0;text-align:start}
+.li:last-child{border-bottom:0}
+.li .ttl{font-weight:600;font-size:14.5px}
+.li .meta{font-size:12.5px;color:var(--muted)}
+.li .lic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent)}
+.li .lic svg{width:19px;height:19px}
+.chev{width:16px;height:16px;color:var(--muted);flex:none}
+
+/* case cards */
+.case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;border-inline-start:4px solid var(--line)}
+.case.u-high{border-inline-start-color:var(--rose)}
+.case.u-mid{border-inline-start-color:var(--sun)}
+.case h3{font-size:15.5px;font-weight:700}
+.case p{margin:0;font-size:13.5px}
+.kv{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
+
+/* rooms grid */
+.daystrip{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.daystrip::-webkit-scrollbar{display:none}
+.dpick{flex:none;width:54px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:7px 0;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.dpick small{font-size:11px;color:var(--muted)}
+.dpick b{font-size:17px}
+.dpick[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.dpick[aria-pressed="true"] small{color:inherit;opacity:.8}
+.rgrid-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.rgrid{display:grid;grid-template-columns:44px repeat(5,minmax(62px,1fr));min-width:360px}
+.rgrid .h{position:sticky;top:0;background:var(--surface-2);font-size:11.5px;font-weight:700;text-align:center;padding:8px 2px;border-bottom:1px solid var(--line);line-height:1.2}
+.rgrid .tm{font-size:11.5px;color:var(--muted);text-align:center;padding-top:6px;border-bottom:1px solid var(--line)}
+.slot{border:0;border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);background:none;min-height:46px;padding:3px;font-size:11px;line-height:1.2;text-align:start;display:flex}
+.slot span{flex:1;border-radius:8px;padding:4px 5px;overflow:hidden}
+.slot.free span{display:grid;place-items:center;color:var(--line);font-size:18px}
+.slot.free:hover span{background:var(--accent-soft);color:var(--accent)}
+.slot.busy span{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.slot.mine span{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.slot.past{opacity:.45}
+
+/* progress */
+.bar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+
+/* info board */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile .lbl{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.2px}
+.tile .val{font-size:16px;font-weight:700;word-break:break-word;direction:ltr;text-align:right}
+.tile .val.rtl{direction:rtl}
+.tile .acts{display:flex;gap:6px;margin-top:auto}
+.tile.wide{grid-column:1/-1}
+
+/* sheet */
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(8,20,22,.45);display:flex;align-items:flex-end;justify-content:center;animation:fade .15s ease}
+.sheet{width:100%;max-width:480px;max-height:88%;overflow:auto;background:var(--surface);border-radius:22px 22px 0 0;
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  padding-block:10px calc(18px + env(safe-area-inset-bottom,0px));animation:up .2s ease}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+.sheet h2{font-family:var(--f-display);font-size:22px;margin-bottom:12px}
+form.f{display:flex;flex-direction:column;gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label,.fld .lb{font-size:13px;font-weight:600}
+.fld input,.fld select,.fld textarea{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;width:100%;min-width:0}
+.fld textarea{min-height:84px;resize:vertical}
+.fld .hint{font-size:12px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checks{display:flex;flex-wrap:wrap;gap:6px}
+.checks label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:500;background:var(--surface-2)}
+.privacy{display:flex;gap:8px;background:var(--sun-soft);border-radius:12px;padding:10px 12px;font-size:12.5px}
+.toast{position:fixed;z-index:60;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:18px 8px}
+@keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:360px){.qa{grid-template-columns:repeat(2,1fr)}.kpis{grid-template-columns:1fr 1fr}}
+</style>
+
+<div id="app" dir="rtl" lang="he">
+  <header class="top">
+    <button class="avatar" id="meAvatar" data-go="profile" aria-label="הפרופיל שלי"></button>
+    <div class="brand"><b>המרחב</b><span id="stationName">שפ״ח · תחנת צפון</span></div>
+    <button class="iconbtn" data-act="notifs" aria-label="התראות"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg><span class="badge" id="notifCount" hidden></span></button>
+  </header>
+  <div class="demo">גרסת הדגמה · כל השמות והנתונים לדוגמה בלבד</div>
+  <main id="view"></main>
+  <nav class="nav" aria-label="ניווט ראשי"><div class="nav-in" id="nav"></div></nav>
+</div>
+
+<script>
+(function(){
+document.documentElement.setAttribute('dir','rtl');
+document.documentElement.setAttribute('lang','he');
+
+/* ---------- helpers ---------- */
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const isWork=d=>d.getDay()<=4;
+const NOW=new Date(); const TODAY=iso(NOW);
+const workdays=(from,n,dir=1)=>{const out=[];let d=new Date(from);while(out.length<n){if(isWork(d))out.push(iso(d));d=addDays(d,dir)}return out};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const DOW=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+const DOWL=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const fmtMonth=d=>new Intl.DateTimeFormat('he-IL',{month:'long',year:'numeric'}).format(d);
+const fmtDay=s=>{const d=parse(s);return `יום ${DOWL[d.getDay()]}, ${d.getDate()}.${d.getMonth()+1}`};
+const fmtShort=s=>{const d=parse(s);return `${d.getDate()}.${d.getMonth()+1}`};
+const hebDate=d=>{try{return new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{day:'numeric',month:'long',year:'numeric'}).format(d)}catch(e){return ''}};
+const mins=t=>{if(!t)return 0;const [h,m]=t.split(':').map(Number);return h*60+m};
+const hm=m=>`${Math.floor(m/60)}:${pad(Math.round(m%60))}`;
+const nowHM=()=>{const d=new Date();return `${pad(d.getHours())}:${pad(d.getMinutes())}`};
+const initials=n=>n.replace(/[״"׳'()]/g,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('');
+
+/* ---------- static config ---------- */
+const DAY_TYPES={
+  office:{l:'עבודה בתחנה',c:'var(--c-office)'},
+  field:{l:'עבודה במוסד חינוכי',c:'var(--c-field)'},
+  home:{l:'עבודה מהבית',c:'var(--c-home)'},
+  course:{l:'השתלמות / קורס',c:'var(--c-course)'},
+  emergency:{l:'התערבות בחירום',c:'var(--c-emergency)'},
+  vacation:{l:'חופשה',c:'var(--c-vacation)',absence:1},
+  sick:{l:'מחלה',c:'var(--c-sick)',absence:1},
+  childsick:{l:'מחלת ילד/ה',c:'var(--c-childsick)',absence:1},
+  reserve:{l:'מילואים',c:'var(--c-reserve)',absence:1},
+  maternity:{l:'חופשת לידה',c:'var(--c-maternity)',absence:1},
+};
+const WORK_TYPES=['office','field','home','course','emergency'];
+const ABS_TYPES=['vacation','sick','childsick','reserve','maternity','course'];
+const ROOMS=['חדר טיפול 1','חדר טיפול 2','חדר משחק','חדר הדרכה','חדר ישיבות'];
+const HOURS=[8,9,10,11,12,13,14,15,16];
+const EV_TYPES={staff:{l:'ישיבת צוות',c:'var(--c-office)'},course:{l:'השתלמות',c:'var(--c-course)'},fun:{l:'יום גיבוש',c:'var(--c-vacation)'},cases:{l:'ישיבת מקרים',c:'var(--c-field)'},group:{l:'הדרכה קבוצתית',c:'var(--c-home)'}};
+const NEEDS=['פסיכולוג/ית אחר/ת בתחנה','יועץ/ת חינוכי/ת','קב״ס','מחלקת חינוך מיוחד','עו״ס לשכת הרווחה','פסיכיאטר/ית ילדים'];
+const AGES=['גן','יסודי','חטיבת ביניים','תיכון'];
+const EM_TYPES=['אבל ואובדן','תאונה / פציעה','אירוע ביטחוני','אירוע אלימות','חשד לפגיעה בקטין','סיכון אובדני','אחר'];
+const EM_ROLES=['מוביל/ה','משתתף/ת בצוות','ייעוץ טלפוני לצוות'];
+
+/* ---------- seed ---------- */
+function seed(){
+  const past=workdays(addDays(NOW,-1),30,-1);
+  const next=workdays(NOW,12,1);
+  const staff=[
+    {id:'s1',name:'נועה לוי',title:'פסיכולוגית חינוכית מומחית',role:'psych'},
+    {id:'s2',name:'דנה כהן',title:'מנהלת התחנה',role:'manager'},
+    {id:'s3',name:'יעל מזרחי',title:'פסיכולוגית חינוכית',role:'psych'},
+    {id:'s4',name:'אורי שגיא',title:'פסיכולוג חינוכי מומחה',role:'psych'},
+    {id:'s5',name:'מיכל אברהם',title:'פסיכולוגית חינוכית',role:'psych'},
+    {id:'s6',name:'רותם בן דוד',title:'מתמחה, שנה ב׳',role:'intern',supervisor:'s1'},
+    {id:'s7',name:'עמית פרץ',title:'מתמחה, שנה א׳',role:'intern',supervisor:'s1'},
+    {id:'s8',name:'שירה גולן',title:'מזכירת התחנה',role:'admin'},
+  ];
+  const att={};
+  past.forEach((d,i)=>{
+    let type=i%5===1?'field':i%7===3?'home':'office';
+    if(i===8||i===9||i===10)type='vacation';
+    if(i===17)type='sick';
+    if(i===4)type='emergency';
+    if(i===21)type='course';
+    const abs=DAY_TYPES[type].absence;
+    att[d]={type,in:abs?'':`0${7+(i%2)}:${pad(40+(i*7)%20)}`,out:abs?'':`15:${pad(10+(i*11)%45)}`};
+  });
+  const team={s2:{type:'office',in:'07:52'},s3:{type:'field',in:'08:10'},s4:{type:'reserve'},s5:{type:'maternity'},s6:{type:'office',in:'08:21'},s7:{type:'course'},s8:{type:'office',in:'07:30'}};
+  const absences=[
+    {id:uid(),who:'s5',type:'maternity',from:iso(addDays(NOW,-40)),to:iso(addDays(NOW,60)),note:''},
+    {id:uid(),who:'s1',type:'vacation',from:next[8],to:next[9],note:'נסיעה משפחתית'},
+  ];
+  const sessions=[
+    {id:uid(),intern:'s6',sup:'s1',date:past[1],start:'12:00',dur:60,mode:'פנים אל פנים',room:'חדר הדרכה',topic:'הכנת סיכום אבחון ראשון',status:'done',notes:'עברנו על מבנה הדוח וניסוח ההמלצות.'},
+    {id:uid(),intern:'s6',sup:'s1',date:past[6],start:'12:00',dur:60,mode:'פנים אל פנים',room:'חדר הדרכה',topic:'עבודה מול צוות גן',status:'done',notes:''},
+    {id:uid(),intern:'s7',sup:'s1',date:past[3],start:'10:00',dur:60,mode:'זום',room:'',topic:'ניהול שיחת הורים ראשונה',status:'done',notes:''},
+    {id:uid(),intern:'s7',sup:'s1',date:past[8],start:'10:00',dur:90,mode:'פנים אל פנים',room:'חדר הדרכה',topic:'קריאת מבחני השלכה',status:'done',notes:''},
+    {id:uid(),intern:'s6',sup:'s1',date:next[1],start:'12:00',dur:60,mode:'פנים אל פנים',room:'חדר הדרכה',topic:'הצגת מקרה לקראת ישיבת מקרים',status:'scheduled',notes:''},
+    {id:uid(),intern:'s7',sup:'s1',date:next[2],start:'10:00',dur:60,mode:'פנים אל פנים',room:'חדר הדרכה',topic:'',status:'requested',notes:''},
+  ];
+  const bookings=[
+    {id:uid(),room:'חדר טיפול 1',date:TODAY,h:9,by:'s3',what:'טיפול'},
+    {id:uid(),room:'חדר טיפול 1',date:TODAY,h:13,by:'s1',what:'טיפול'},
+    {id:uid(),room:'חדר משחק',date:TODAY,h:10,by:'s1',what:'טיפול במשחק'},
+    {id:uid(),room:'חדר משחק',date:TODAY,h:11,by:'s6',what:'טיפול במשחק'},
+    {id:uid(),room:'חדר ישיבות',date:TODAY,h:14,by:'s2',what:'שיחת הורים'},
+    {id:uid(),room:'חדר טיפול 2',date:next[1],h:9,by:'s1',what:'טיפול'},
+    {id:uid(),room:'חדר הדרכה',date:next[1],h:12,by:'s1',what:'הדרכת מתמחה'},
+    {id:uid(),room:'חדר הדרכה',date:next[2],h:10,by:'s1',what:'הדרכת מתמחה'},
+    {id:uid(),room:'חדר ישיבות',date:next[1],h:13,by:'s2',what:'ישיבת צוות'},
+    {id:uid(),room:'חדר טיפול 2',date:next[2],h:11,by:'s4',what:'טיפול'},
+  ];
+  const sunday=d=>{let x=new Date(d);while(x.getDay()!==0)x=addDays(x,1);return x};
+  const s0=sunday(addDays(NOW,1));
+  const events=[
+    {id:uid(),type:'staff',title:'ישיבת צוות שבועית',date:iso(s0),start:'13:00',end:'14:30',place:'חדר ישיבות',rsvp:['s2','s3']},
+    {id:uid(),type:'staff',title:'ישיבת צוות שבועית',date:iso(addDays(s0,7)),start:'13:00',end:'14:30',place:'חדר ישיבות',rsvp:[]},
+    {id:uid(),type:'cases',title:'ישיבת מקרים: הצגת מקרה – רותם',date:iso(addDays(s0,2)),start:'12:00',end:'13:30',place:'חדר ישיבות',rsvp:['s6']},
+    {id:uid(),type:'course',title:'השתלמות: התערבות בטראומה אצל ילדים',date:iso(addDays(s0,3)),start:'09:00',end:'13:00',place:'מרכז הדרכה עירוני',rsvp:['s3','s4','s6','s7']},
+    {id:uid(),type:'group',title:'הדרכה קבוצתית למתמחים',date:iso(addDays(s0,4)),start:'10:00',end:'11:30',place:'חדר הדרכה',rsvp:['s6','s7']},
+    {id:uid(),type:'fun',title:'יום גיבוש תחנתי – סיור ביפו',date:iso(addDays(s0,11)),start:'09:00',end:'15:00',place:'נקודת מפגש: כיכר השעון',rsvp:['s2','s3','s8']},
+  ];
+  const pool=[
+    {id:uid(),created:past[0],by:'s3',inst:'בי״ס יסודי "הדר"',age:'יסודי',ref:'תלמיד כיתה ג׳ (א.ש.)',topic:'ירידה חדה בתפקוד לימודי והסתגרות מאז תחילת השנה. ההורים מבקשים פגישה.',need:'פסיכולוג/ית אחר/ת בתחנה',urg:'high',status:'open',assignee:''},
+    {id:uid(),created:past[2],by:'s1',inst:'גן "רימון"',age:'גן',ref:'ילדה בת 5 (נ.ל.)',topic:'צורך בהערכה התפתחותית לפני מעבר לכיתה א׳.',need:'פסיכולוג/ית אחר/ת בתחנה',urg:'mid',status:'open',assignee:''},
+    {id:uid(),created:past[3],by:'s4',inst:'חט״ב "אופק"',age:'חטיבת ביניים',ref:'תלמידה כיתה ח׳ (מ.ד.)',topic:'היעדרויות חוזרות, לא מגיעה כבר שבועיים.',need:'קב״ס',urg:'high',status:'taken',assignee:'s3'},
+    {id:uid(),created:past[5],by:'s1',inst:'בי״ס יסודי "נווה"',age:'יסודי',ref:'כיתה ה׳ 2',topic:'קונפליקט חברתי מתמשך בכיתה. המחנכת מבקשת ליווי של יועצת.',need:'יועץ/ת חינוכי/ת',urg:'low',status:'open',assignee:''},
+    {id:uid(),created:past[9],by:'s5',inst:'תיכון "גלים"',age:'תיכון',ref:'תלמיד כיתה י׳ (י.ב.)',topic:'בקשה להמשך ליווי לאחר אירוע חירום בבית הספר.',need:'פסיכולוג/ית אחר/ת בתחנה',urg:'mid',status:'closed',assignee:'s1'},
+  ];
+  const emergencies=[
+    {id:uid(),date:past[4],inst:'תיכון "גלים"',type:'אבל ואובדן',role:'מוביל/ה',hours:5,team:['s3','s6'],actions:'שיחה עם צוות ההנהלה, מפגש כיתתי בשתי כיתות, זיהוי תלמידים בסיכון והעברה למעקב.',followUp:true,status:'בהמשך מעקב'},
+    {id:uid(),date:past[14],inst:'בי״ס יסודי "הדר"',type:'תאונה / פציעה',role:'משתתף/ת בצוות',hours:3,team:['s4'],actions:'הדרכת מחנכים לשיחה בכיתה, מכתב להורים.',followUp:false,status:'נסגר'},
+    {id:uid(),date:past[26],inst:'גן "רימון"',type:'אירוע ביטחוני',role:'ייעוץ טלפוני לצוות',hours:1,team:[],actions:'ייעוץ טלפוני לגננת לגבי שיחה עם הילדים.',followUp:false,status:'נסגר'},
+  ];
+  const files=[
+    {id:uid(),cat:'טפסי הסכמה',name:'הסכמת הורים לטיפול פסיכולוגי',ext:'PDF',updated:past[20],by:'s8'},
+    {id:uid(),cat:'טפסי הסכמה',name:'הסכמה לאבחון פסיכו-דידקטי',ext:'PDF',updated:past[20],by:'s8'},
+    {id:uid(),cat:'טפסי הסכמה',name:'הסכמת הורה כשההורים פרודים',ext:'PDF',updated:past[11],by:'s2'},
+    {id:uid(),cat:'ויתור סודיות',name:'ויתור סודיות מול גורם מטפל',ext:'PDF',updated:past[25],by:'s8'},
+    {id:uid(),cat:'ויתור סודיות',name:'ויתור סודיות מול מוסד חינוכי',ext:'PDF',updated:past[25],by:'s8'},
+    {id:uid(),cat:'שאלונים',name:'שאלון קליטה להורים',ext:'DOCX',updated:past[7],by:'s3'},
+    {id:uid(),cat:'שאלונים',name:'שאלון לגננת / מחנכת',ext:'DOCX',updated:past[7],by:'s3'},
+    {id:uid(),cat:'תבניות',name:'תבנית סיכום אבחון',ext:'DOCX',updated:past[15],by:'s1'},
+    {id:uid(),cat:'תבניות',name:'מכתב הפניה לגורם חיצוני',ext:'DOCX',updated:past[15],by:'s1'},
+    {id:uid(),cat:'נהלים',name:'נוהל דיווח על חשד לפגיעה בקטין',ext:'PDF',updated:past[28],by:'s2'},
+    {id:uid(),cat:'נהלים',name:'נוהל התערבות בחירום במוסד חינוכי',ext:'PDF',updated:past[28],by:'s2'},
+  ];
+  const info=[
+    {id:uid(),lbl:'Wi-Fi לצוות',val:'Station-North-Staff',secret:'Tz-2026-north',wide:1},
+    {id:uid(),lbl:'Wi-Fi לאורחים',val:'Station-Guest',secret:'welcome123'},
+    {id:uid(),lbl:'קוד כניסה לבניין',val:'',secret:'4821#'},
+    {id:uid(),lbl:'קוד ארון ערכות אבחון',val:'',secret:'0715'},
+    {id:uid(),lbl:'מדפסת',val:'קומה 2, ליד המטבחון',rtl:1},
+    {id:uid(),lbl:'חניה',val:'חניון הבניין, קומה ‎-1, מקומות 40–48',rtl:1,wide:1},
+  ];
+  const contacts=[
+    {grp:'תחנות שפ״ח',name:'תחנת מרכז',who:'מזכירות',phone:'03-000-1101'},
+    {grp:'תחנות שפ״ח',name:'תחנת דרום',who:'מזכירות',phone:'03-000-1102'},
+    {grp:'תחנות שפ״ח',name:'תחנת מזרח',who:'מזכירות',phone:'03-000-1103'},
+    {grp:'תחנות שפ״ח',name:'תחנת יפו',who:'מזכירות',phone:'03-000-1104'},
+    {grp:'גורמי חוץ',name:'מחלקת חינוך מיוחד',who:'רכזת שיבוץ',phone:'03-000-2201'},
+    {grp:'גורמי חוץ',name:'לשכת הרווחה האזורית',who:'עו״ס תורנ/ית',phone:'03-000-2202'},
+    {grp:'גורמי חוץ',name:'יחידת קב״סים',who:'מרכזת',phone:'03-000-2203'},
+    {grp:'חירום',name:'ער״ן – עזרה ראשונה נפשית',who:'24/7',phone:'1201'},
+    {grp:'חירום',name:'מד״א',who:'',phone:'101'},
+    {grp:'חירום',name:'משטרה',who:'',phone:'100'},
+  ];
+  const notices=[
+    {id:uid(),date:past[0],by:'s2',title:'עדכון שעות קבלה',body:'ביום חמישי הקרוב התחנה תיסגר ב-13:00 בגלל השתלמות צוות.'},
+    {id:uid(),date:past[2],by:'s8',title:'ערכות WISC חדשות',body:'שתי ערכות חדשות נמצאות בארון הערכות. יש לרשום השאלה בדף שליד הארון.'},
+  ];
+  return {v:1,meId:'s1',staff,att,team,absences,sessions,bookings,events,pool,emergencies,files,info,contacts,notices,internTarget:50,vacationQuota:24};
+}
+
+/* ---------- state ---------- */
+const KEY='hamerhav-demo-v1';
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+if(!S||S.v!==1)S=seed();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const me=()=>S.staff.find(p=>p.id===S.meId);
+const person=id=>S.staff.find(p=>p.id===id)||{name:'—',title:''};
+const role=()=>me().role;
+
+const UI={view:'home',calMonth:new Date(NOW.getFullYear(),NOW.getMonth(),1),attMonth:new Date(NOW.getFullYear(),NOW.getMonth(),1),calDay:TODAY,roomDay:isWork(NOW)?TODAY:workdays(NOW,1)[0],poolFilter:'open',fileCat:'הכל',calTab:'events',caseTab:'pool',revealed:{}};
+
+/* ---------- icons ---------- */
+const I={
+  home:'<path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  cases:'<path d="M4 7.5h16v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M4 12h16"/>',
+  more:'<circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/>',
+  door:'<path d="M6 20V4.5A.5.5 0 0 1 6.5 4H17v16M4 20h16"/><circle cx="14" cy="12" r=".9"/>',
+  people:'<circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.6 5.5-4.6s4.9 1.6 5.5 4.6"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.6c2.3.1 4 1.5 4.5 4.4"/>',
+  siren:'<path d="M7 17v-5a5 5 0 0 1 10 0v5"/><path d="M5 17h14v3H5zM12 3v2M4.5 6l1.4 1.4M19.5 6l-1.4 1.4"/>',
+  inbox:'<path d="M4 13.5 6.5 5h11l2.5 8.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 13.5h4.5l1 2h5l1-2H20"/>',
+  file:'<path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3.5V8h4.5M8.5 13h7M8.5 16.5h5"/>',
+  key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 7l2 2M14 9l2 2"/>',
+  phone:'<path d="M5 4h3.5l1.5 4-2 1.5a10 10 0 0 0 6.5 6.5L16 14l4 1.5V19a1 1 0 0 1-1 1A15 15 0 0 1 4 5a1 1 0 0 1 1-1Z"/>',
+  mega:'<path d="M4 10v4h3l7 4V6L7 10z"/><path d="M17.5 9a4 4 0 0 1 0 6"/>',
+  user:'<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.8 3.8-5.8 7.5-5.8s6.6 2 7.5 5.8"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  chevL:'<path d="m14.5 6-6 6 6 6"/>',chevR:'<path d="m9.5 6 6 6-6 6"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/>',
+  grad:'<path d="m2.5 9.5 9.5-5 9.5 5-9.5 5z"/><path d="M6.5 11.6V16c1.5 1.5 3.5 2.3 5.5 2.3s4-.8 5.5-2.3v-4.4M21.5 9.5v5"/>',
+  upload:'<path d="M12 15V4.5M7.5 9 12 4.5 16.5 9M4.5 15v3.5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5V15"/>',
+  shield:'<path d="M12 3.5 5 6v5.5c0 4.3 3 7.6 7 9 4-1.4 7-4.7 7-9V6z"/>',
+};
+const ic=(n,extra='')=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${extra}>${I[n]}</svg>`;
+
+/* ---------- nav ---------- */
+const TABS=[{k:'home',l:'ראשי',i:'home'},{k:'attendance',l:'נוכחות',i:'clock'},{k:'calendar',l:'יומן וחדרים',i:'cal'},{k:'cases',l:'פניות וחירום',i:'cases'},{k:'more',l:'עוד',i:'more'}];
+const PARENT={rooms:'calendar',supervision:'calendar',events:'calendar',pool:'cases',emergency:'cases',files:'more',info:'more',contacts:'more',profile:'more',notices:'more'};
+function go(v){
+  if(v==='rooms'||v==='supervision'||v==='events'){UI.calTab=v==='events'?'events':v;v='calendar'}
+  if(v==='pool'||v==='emergency'){UI.caseTab=v;v='cases'}
+  UI.view=v;try{history.replaceState(null,'','#'+v)}catch(e){}
+  render();window.scrollTo(0,0);
+}
+
+/* ---------- derived ---------- */
+function dayTypeFor(who,date){
+  if(who===S.meId&&S.att[date])return S.att[date].type;
+  const a=S.absences.find(x=>x.who===who&&date>=x.from&&date<=x.to);
+  if(a)return a.type;
+  if(date===TODAY&&S.team[who])return S.team[who].type;
+  return null;
+}
+function myAgenda(date){
+  const out=[];
+  S.bookings.filter(b=>b.date===date&&b.by===S.meId).forEach(b=>out.push({t:`${pad(b.h)}:00`,end:`${pad(b.h+1)}:00`,title:b.what,sub:b.room,c:'var(--c-office)'}));
+  S.sessions.filter(s=>s.date===date&&s.status!=='cancelled'&&(s.sup===S.meId||s.intern===S.meId)).forEach(s=>{
+    if(s.room&&S.bookings.some(b=>b.date===date&&b.by===S.meId&&b.room===s.room&&`${pad(b.h)}:00`===s.start))return;
+    out.push({t:s.start,end:hm(mins(s.start)+s.dur),title:`הדרכה · ${role()==='intern'?person(s.sup).name:person(s.intern).name}`,sub:s.room||s.mode,c:'var(--c-home)'});
+  });
+  S.events.filter(e=>e.date===date).forEach(e=>out.push({t:e.start,end:e.end,title:e.title,sub:e.place,c:EV_TYPES[e.type].c}));
+  return out.sort((a,b)=>mins(a.t)-mins(b.t));
+}
+function notifs(){
+  const n=[];
+  if(role()!=='intern')S.sessions.filter(s=>s.sup===S.meId&&s.status==='requested').forEach(s=>n.push({go:'supervision',t:`${person(s.intern).name} ביקש/ה מפגש הדרכה`,s:fmtDay(s.date)+' · '+s.start}));
+  S.pool.filter(p=>p.status==='open'&&p.urg==='high').forEach(p=>n.push({go:'pool',t:'פנייה דחופה פתוחה במאגר',s:p.inst+' · '+p.ref}));
+  S.events.filter(e=>e.date>=TODAY&&!e.rsvp.includes(S.meId)).slice(0,3).forEach(e=>n.push({go:'events',t:`אישור הגעה: ${e.title}`,s:fmtDay(e.date)}));
+  if(isWork(NOW)&&!(S.att[TODAY]&&S.att[TODAY].in)&&!dayTypeFor(S.meId,TODAY))n.push({go:'attendance',t:'עדיין לא דיווחת כניסה היום',s:'דיווח לוקח שנייה'});
+  return n;
+}
+
+/* ---------- views ---------- */
+function vHome(){
+  const m=me();const a=S.att[TODAY]||{};const today=dayTypeFor(S.meId,TODAY);
+  const worked=a.in?(a.out?mins(a.out):mins(nowHM()))-mins(a.in):0;
+  const pct=Math.min(1,worked/(8*60));const C=2*Math.PI*50;
+  const agenda=myAgenda(TODAY);
+  const openPool=S.pool.filter(p=>p.status==='open');
+  const hour=NOW.getHours();const greet=hour<12?'בוקר טוב':hour<17?'צהריים טובים':'ערב טוב';
+  const isAbs=today&&DAY_TYPES[today].absence;
+  let punch;
+  if(isAbs)punch=`<div class="pill" style="background:var(--surface-2);border:1px solid var(--line)"><i class="dot" style="background:${DAY_TYPES[today].c}"></i>${DAY_TYPES[today].l}</div>`;
+  else if(!a.in)punch=`<button class="punch" data-act="punchIn">כניסה · ${nowHM()}</button>`;
+  else if(!a.out)punch=`<button class="punch out" data-act="punchOut">יציאה · ${nowHM()}</button>`;
+  else punch=`<button class="punch done" data-act="editToday">יום הסתיים ✓</button>`;
+  return `
+  <div class="hello"><span class="sub">${esc(fmtDay(TODAY))} · ${esc(hebDate(NOW))}</span><h1>${greet}, ${esc(m.name.split(' ')[0])}</h1></div>
+
+  <section class="card raised clock-card" aria-label="נוכחות היום">
+    <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--surface-2)" stroke-width="10"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}"/></svg>
+      <div class="ct"><b class="num">${hm(Math.max(0,worked))}</b><small>מתוך 8:00</small></div></div>
+    <div class="stack" style="min-width:0">
+      <div class="sub">${a.in?`נכנסת ב-<b class="num">${a.in}</b>${a.out?` · יצאת ב-<b class="num">${a.out}</b>`:''}`:isAbs?'היום מסומן כהיעדרות':'עוד לא דיווחת היום'}</div>
+      ${punch}
+      ${!isAbs?`<button class="link" data-act="pickType" style="text-align:start">${today?`<i class="dot" style="background:${DAY_TYPES[today].c}"></i> ${DAY_TYPES[today].l} · שינוי`:'סוג יום: בתחנה, בשטח, מהבית…'}</button>`:''}
+    </div>
+  </section>
+
+  <section class="sec"><div class="sec-h"><h2>פעולות מהירות</h2></div>
+    <div class="qa">
+      ${qa('דיווח היעדרות','addAbsence','cal','var(--c-vacation)')}
+      ${qa(role()==='intern'?'בקשת הדרכה':'קביעת הדרכה','addSession','grad','var(--c-home)')}
+      ${qa('הזמנת חדר','goRooms','door','var(--c-office)')}
+      ${qa('דיווח חירום','addEmergency','siren','var(--c-emergency)')}
+      ${qa('פנייה למאגר','addPool','inbox','var(--c-field)')}
+      ${qa('טפסים','goFiles','file','var(--c-course)')}
+    </div></section>
+
+  <section class="sec"><div class="sec-h"><h2>היום שלי</h2><button class="link" data-go="calendar">ליומן המלא</button></div>
+    <div class="card">${agenda.length?agenda.map(agItem).join(''):`<div class="empty">אין פגישות או הזמנות להיום.</div>`}</div></section>
+
+  ${role()==='manager'?teamToday():''}
+
+  <section class="sec"><div class="sec-h"><h2>מאגר הפניות</h2><button class="link" data-go="pool">לכל הפניות</button></div>
+    <button class="card row" data-go="pool" style="text-align:start;width:100%">
+      <div class="grow"><b style="font-size:24px" class="num">${openPool.length}</b> <span class="sub">פניות פתוחות</span>
+      <div class="sub">${openPool.filter(p=>p.urg==='high').length} מהן דחופות · ממתינות לגורם שייקח אותן</div></div>
+      ${ic('chevL','class="chev"')}</button></section>
+
+  <section class="sec"><div class="sec-h"><h2>הודעות התחנה</h2>${role()==='manager'?'<button class="link" data-act="addNotice">הודעה חדשה</button>':''}</div>
+    <div class="card">${S.notices.slice(0,3).map(n=>`<div class="notice"><span class="lic" style="width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent)">${ic("mega","width=\"19\" height=\"19\"")}</span><div class="grow"><b>${esc(n.title)}</b><div style="font-size:13.5px">${esc(n.body)}</div><div class="when">${esc(person(n.by).name)} · ${fmtShort(n.date)}</div></div></div>`).join('')}</div></section>`;
+}
+const qa=(l,act,i,c)=>`<button data-act="${act}"><span class="ic" style="background:color-mix(in srgb, ${c} 16%, transparent);color:${c}">${ic(i)}</span>${l}</button>`;
+const agItem=x=>`<div class="agenda-item"><div class="t num">${x.t}<small>${x.end||''}</small></div><div class="ag-body" style="border-inline-start-color:${x.c}"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></div></div>`;
+function teamToday(){
+  const rows=S.staff.filter(p=>p.id!==S.meId).map(p=>{const t=dayTypeFor(p.id,TODAY);const tm=S.team[p.id];return {p,t,tm}});
+  const here=rows.filter(r=>r.t&&!DAY_TYPES[r.t].absence).length;
+  return `<section class="sec"><div class="sec-h"><h2>הצוות היום</h2><span class="sub">${here} עובדים · ${rows.length-here} לא זמינים</span></div>
+  <div class="list">${rows.map(({p,t,tm})=>`<div class="li"><span class="avatar" style="width:34px;height:34px;font-size:12px">${initials(p.name)}</span><div class="grow"><div class="ttl">${esc(p.name)}</div><div class="meta">${esc(p.title)}</div></div>${t?`<span class="pill" style="background:var(--surface-2);border:1px solid var(--line)"><i class="dot" style="background:${DAY_TYPES[t].c}"></i>${DAY_TYPES[t].l}${tm&&tm.in?` · ${tm.in}`:''}</span>`:'<span class="pill p-low">לא דווח</span>'}</div>`).join('')}</div></section>`;
+}
+
+function monthGrid(month,cellFn){
+  const first=new Date(month.getFullYear(),month.getMonth(),1);const days=new Date(month.getFullYear(),month.getMonth()+1,0).getDate();
+  let cells='';for(let i=0;i<first.getDay();i++)cells+='<span class="day out"></span>';
+  for(let d=1;d<=days;d++)cells+=cellFn(iso(new Date(month.getFullYear(),month.getMonth(),d)));
+  return `<div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div><div class="month">${cells}</div>`;
+}
+function vAttendance(){
+  const mo=UI.attMonth;const y=mo.getFullYear(),m=mo.getMonth();
+  const grid=monthGrid(mo,ds=>{const d=parse(ds);const t=dayTypeFor(S.meId,ds);const wk=!isWork(d);
+    const style=t?`style="background:${DAY_TYPES[t].c}"`:'';
+    return `<button class="day ${wk?'wkend':''} ${ds===TODAY?'today':''} ${t?'typed':''}" ${style} data-act="attDay" data-d="${ds}" aria-label="${fmtDay(ds)}${t?' · '+DAY_TYPES[t].l:''}">${d.getDate()}</button>`});
+  const counts={};let totalMin=0;
+  const days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++){const ds=iso(new Date(y,m,d));const t=dayTypeFor(S.meId,ds);if(t&&isWork(parse(ds)))counts[t]=(counts[t]||0)+1;const a=S.att[ds];if(a&&a.in&&a.out)totalMin+=mins(a.out)-mins(a.in)}
+  const yr=NOW.getFullYear();let vacUsed=0,sickUsed=0;
+  for(let d=new Date(yr,0,1);d<=new Date(yr,11,31);d=addDays(d,1)){if(!isWork(d))continue;const t=dayTypeFor(S.meId,iso(d));if(t==='vacation')vacUsed++;if(t==='sick'||t==='childsick')sickUsed++}
+  const workDays=WORK_TYPES.reduce((s,k)=>s+(counts[k]||0),0);
+  const myAbs=S.absences.filter(a=>a.who===S.meId).sort((a,b)=>b.from.localeCompare(a.from));
+  return `<div class="stack"><h1 class="view-title">נוכחות</h1><span class="sub">דיווח יומי, היעדרויות ומצב ימי חופשה</span></div>
+  <div class="kpis">
+    <div class="kpi"><b class="num">${workDays}</b><span>ימי עבודה בחודש</span></div>
+    <div class="kpi"><b class="num">${hm(totalMin)}</b><span>שעות שדווחו</span></div>
+    <div class="kpi"><b class="num">${S.vacationQuota-vacUsed}</b><span>ימי חופשה נותרו</span></div>
+  </div>
+  <section class="card stack" aria-label="לוח חודשי">
+    <div class="cal-head"><b>${fmtMonth(mo)}</b><div class="cal-nav"><button class="iconbtn" data-act="attPrev" aria-label="חודש קודם">${ic('chevR')}</button><button class="iconbtn" data-act="attNext" aria-label="חודש הבא">${ic('chevL')}</button></div></div>
+    ${grid}
+    <div class="legend">${Object.entries(DAY_TYPES).filter(([k])=>counts[k]||['office','field','vacation','sick'].includes(k)).map(([k,v])=>`<span><i class="dot" style="background:${v.c}"></i>${v.l}${counts[k]?` (${counts[k]})`:''}</span>`).join('')}</div>
+    <div class="sub">לחיצה על יום פותחת דיווח או תיקון. מחלה השנה: ${sickUsed} ימים.</div>
+  </section>
+  <div class="row"><button class="btn grow" data-act="addAbsence">${ic('plus','width="18" height="18"')}דיווח היעדרות לתקופה</button></div>
+  <section class="sec"><div class="sec-h"><h2>היעדרויות שדווחו</h2></div>
+    <div class="list">${myAbs.length?myAbs.map(a=>`<div class="li"><i class="dot" style="background:${DAY_TYPES[a.type].c};width:10px;height:10px"></i><div class="grow"><div class="ttl">${DAY_TYPES[a.type].l}</div><div class="meta num">${fmtShort(a.from)}${a.to!==a.from?` – ${fmtShort(a.to)}`:''}${a.note?' · '+esc(a.note):''}${a.file?' · 📎 '+esc(a.file):''}</div></div><button class="btn sm ghost" data-act="delAbs" data-id="${a.id}">ביטול</button></div>`).join(''):'<div class="empty">לא דווחו היעדרויות.</div>'}</div></section>
+  ${role()==='manager'?teamToday():''}`;
+}
+
+function vCalendar(){
+  const tabs=[['events','אירועי תחנה'],['rooms','חדרים'],['supervision','הדרכה']];
+  const seg=`<div class="seg" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${UI.calTab===k}" data-act="calTab" data-k="${k}">${l}</button>`).join('')}</div>`;
+  const body=UI.calTab==='rooms'?vRooms():UI.calTab==='supervision'?vSupervision():vEvents();
+  return `<h1 class="view-title">יומן וחדרים</h1>${seg}${body}`;
+}
+function vEvents(){
+  const mo=UI.calMonth;
+  const grid=monthGrid(mo,ds=>{const d=parse(ds);const evs=S.events.filter(e=>e.date===ds);const ses=S.sessions.some(s=>s.date===ds&&s.status!=='cancelled'&&(s.sup===S.meId||s.intern===S.meId));
+    const dots=evs.map(e=>`<i style="background:${EV_TYPES[e.type].c}"></i>`).join('')+(ses?'<i style="background:var(--c-home)"></i>':'');
+    return `<button class="day ${!isWork(d)?'wkend':''} ${ds===TODAY?'today':''}" aria-pressed="${UI.calDay===ds}" data-act="calDay" data-d="${ds}">${d.getDate()}<span class="dots">${dots}</span></button>`});
+  const ag=myAgenda(UI.calDay);
+  const upcoming=S.events.filter(e=>e.date>=TODAY).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
+  return `<section class="card stack">
+    <div class="cal-head"><b>${fmtMonth(mo)}</b><div class="cal-nav"><button class="iconbtn" data-act="calPrev" aria-label="חודש קודם">${ic('chevR')}</button><button class="iconbtn" data-act="calNext" aria-label="חודש הבא">${ic('chevL')}</button></div></div>
+    ${grid}
+    <div class="legend">${Object.values(EV_TYPES).map(v=>`<span><i class="dot" style="background:${v.c}"></i>${v.l}</span>`).join('')}</div>
+  </section>
+  <section class="sec"><div class="sec-h"><h2>${fmtDay(UI.calDay)}</h2><button class="link" data-act="addEvent">אירוע חדש</button></div>
+    <div class="card">${ag.length?ag.map(agItem).join(''):'<div class="empty">אין אירועים ביום הזה.</div>'}</div></section>
+  <section class="sec"><div class="sec-h"><h2>אירועים קרובים</h2></div>
+    <div class="list">${upcoming.map(e=>{const going=e.rsvp.includes(S.meId);return `<div class="li"><span class="lic" style="background:color-mix(in srgb, ${EV_TYPES[e.type].c} 16%, transparent);color:${EV_TYPES[e.type].c}">${ic('cal')}</span><div class="grow"><div class="ttl">${esc(e.title)}</div><div class="meta num">${fmtDay(e.date)} · ${e.start}–${e.end} · ${esc(e.place)}</div><div class="meta">${e.rsvp.length} אישרו הגעה</div></div><button class="btn sm ${going?'':'ghost'}" data-act="rsvp" data-id="${e.id}">${going?'אגיע ✓':'אגיע?'}</button></div>`}).join('')}</div></section>`;
+}
+function vRooms(){
+  const days=workdays(NOW,10,1);
+  if(!days.includes(UI.roomDay))UI.roomDay=days[0];
+  const strip=days.map(ds=>{const d=parse(ds);return `<button class="dpick" aria-pressed="${UI.roomDay===ds}" data-act="roomDay" data-d="${ds}"><small>${ds===TODAY?'היום':DOW[d.getDay()]}</small><b class="num">${d.getDate()}</b></button>`}).join('');
+  const nowH=NOW.getHours();
+  let cells=`<div class="h">שעה</div>${ROOMS.map(r=>`<div class="h">${r}</div>`).join('')}`;
+  HOURS.forEach(h=>{cells+=`<div class="tm num">${pad(h)}:00</div>`;ROOMS.forEach(r=>{const b=S.bookings.find(x=>x.room===r&&x.date===UI.roomDay&&x.h===h);const past=UI.roomDay===TODAY&&h<nowH;
+    if(!b)cells+=`<button class="slot free ${past?'past':''}" ${past?'disabled':''} data-act="book" data-room="${r}" data-h="${h}" aria-label="${r} ${h}:00 פנוי"><span>+</span></button>`;
+    else{const mine=b.by===S.meId;cells+=`<button class="slot ${mine?'mine':'busy'} ${past?'past':''}" data-act="booking" data-id="${b.id}" aria-label="${r} ${h}:00 תפוס"><span>${esc(mine?b.what:initials(person(b.by).name)+' · '+b.what)}</span></button>`}})});
+  const mine=S.bookings.filter(b=>b.by===S.meId&&b.date>=TODAY).sort((a,b)=>(a.date+pad(a.h)).localeCompare(b.date+pad(b.h)));
+  return `<div class="daystrip">${strip}</div>
+  <div class="rgrid-wrap"><div class="rgrid">${cells}</div></div>
+  <div class="legend"><span><i class="dot" style="background:var(--accent)"></i>ההזמנות שלי</span><span><i class="dot" style="background:var(--line)"></i>תפוס</span><span>לחיצה על + מזמינה את החדר לשעה</span></div>
+  <section class="sec"><div class="sec-h"><h2>ההזמנות הקרובות שלי</h2></div>
+    <div class="list">${mine.length?mine.slice(0,8).map(b=>`<div class="li"><span class="lic">${ic('door')}</span><div class="grow"><div class="ttl">${esc(b.room)} · ${esc(b.what)}</div><div class="meta num">${fmtDay(b.date)} · ${pad(b.h)}:00–${pad(b.h+1)}:00</div></div><button class="btn sm ghost" data-act="cancelBooking" data-id="${b.id}">ביטול</button></div>`).join(''):'<div class="empty">אין הזמנות קרובות.</div>'}</div></section>`;
+}
+function hoursDone(internId){return S.sessions.filter(s=>s.intern===internId&&s.status==='done').reduce((t,s)=>t+s.dur,0)/60}
+function sessRow(s){
+  const other=role()==='intern'?person(s.sup).name:person(s.intern).name;
+  const st={done:['התקיים','p-ok'],scheduled:['מתוכנן','p-open'],requested:['ממתין לאישור','p-mid'],cancelled:['בוטל','p-closed']}[s.status];
+  return `<button class="li" data-act="session" data-id="${s.id}"><span class="lic" style="background:color-mix(in srgb, var(--c-home) 16%, transparent);color:var(--c-home)">${ic('grad')}</span><div class="grow"><div class="ttl">${esc(other)}${s.topic?' · '+esc(s.topic):''}</div><div class="meta num">${fmtDay(s.date)} · ${s.start} · ${s.dur} דק׳ · ${esc(s.room||s.mode)}</div></div><span class="pill ${st[1]}">${st[0]}</span></button>`;
+}
+function vSupervision(){
+  const isIntern=role()==='intern';
+  const interns=isIntern?[me()]:S.staff.filter(p=>p.role==='intern'&&p.supervisor===S.meId);
+  const mine=S.sessions.filter(s=>isIntern?s.intern===S.meId:s.sup===S.meId);
+  const up=mine.filter(s=>s.date>=TODAY&&s.status!=='done'&&s.status!=='cancelled').sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));
+  const past=mine.filter(s=>!(s.date>=TODAY&&s.status!=='done'&&s.status!=='cancelled')).sort((a,b)=>(b.date+b.start).localeCompare(a.date+a.start));
+  return `${isIntern?`<div class="card row"><span class="avatar">${initials(person(me().supervisor).name)}</span><div class="grow"><div class="sub">המדריכה שלי</div><b>${esc(person(me().supervisor).name)}</b></div></div>`:''}
+  <section class="sec"><div class="sec-h"><h2>${isIntern?'שעות ההדרכה שלי':'המתמחים שלי'}</h2><button class="link" data-act="setTarget">יעד: ${S.internTarget} ש׳</button></div>
+    <div class="stack">${interns.map(p=>{const h=hoursDone(p.id);return `<div class="card stack"><div class="row"><span class="avatar" style="width:36px;height:36px;font-size:13px">${initials(p.name)}</span><div class="grow"><b>${esc(p.name)}</b><div class="sub">${esc(p.title)}</div></div><b class="num">${h.toFixed(1)}<span class="sub"> / ${S.internTarget} ש׳</span></b></div><div class="bar"><i style="width:${Math.min(100,h/S.internTarget*100)}%"></i></div></div>`}).join('')}</div></section>
+  <button class="btn block" data-act="addSession">${ic('plus','width="18" height="18"')}${isIntern?'בקשת מפגש הדרכה':'קביעת מפגש הדרכה'}</button>
+  <section class="sec"><div class="sec-h"><h2>מפגשים קרובים</h2></div><div class="list">${up.length?up.map(sessRow).join(''):'<div class="empty">אין מפגשים מתוכננים.</div>'}</div></section>
+  <section class="sec"><div class="sec-h"><h2>יומן הדרכה</h2><span class="sub">נספר לשעות ההתמחות</span></div><div class="list">${past.length?past.map(sessRow).join(''):'<div class="empty">עוד אין מפגשים שהתקיימו.</div>'}</div></section>`;
+}
+
+function vCases(){
+  const seg=`<div class="seg" role="tablist"><button role="tab" aria-selected="${UI.caseTab==='pool'}" data-act="caseTab" data-k="pool">מאגר פניות</button><button role="tab" aria-selected="${UI.caseTab==='emergency'}" data-act="caseTab" data-k="emergency">אירועי חירום</button></div>`;
+  return `<h1 class="view-title">פניות וחירום</h1>${seg}${UI.caseTab==='pool'?vPool():vEmergency()}`;
+}
+const URG={high:['דחוף','p-high'],mid:['בינוני','p-mid'],low:['רגיל','p-low']};
+const PST={open:['פתוח','p-open'],taken:['בטיפול','p-taken'],closed:['נסגר','p-closed']};
+function vPool(){
+  const f=UI.poolFilter;
+  const list=S.pool.filter(p=>f==='all'?true:f==='mine'?(p.assignee===S.meId||p.by===S.meId):f==='high'?(p.urg==='high'&&p.status!=='closed'):p.status===f).sort((a,b)=>({high:0,mid:1,low:2}[a.urg]-{high:0,mid:1,low:2}[b.urg])||b.created.localeCompare(a.created));
+  const chips=[['open','פתוחות'],['high','דחופות'],['mine','שלי'],['taken','בטיפול'],['closed','נסגרו'],['all','הכל']];
+  return `<div class="privacy">${ic('shield','width="18" height="18" style="flex:none;color:var(--sun)"')}<span>במאגר נרשמים ראשי תיבות וכיתה בלבד. פרטים מזהים נשארים בתיק האישי.</span></div>
+  <div class="chips">${chips.map(([k,l])=>`<button class="chip" aria-pressed="${f===k}" data-act="poolFilter" data-k="${k}">${l} <span class="num">(${S.pool.filter(p=>k==='all'?true:k==='mine'?(p.assignee===S.meId||p.by===S.meId):k==='high'?(p.urg==='high'&&p.status!=='closed'):p.status===k).length})</span></button>`).join('')}</div>
+  <div class="stack">${list.length?list.map(p=>`<article class="case u-${p.urg}">
+    <div class="row wrap"><span class="pill ${URG[p.urg][1]}">${URG[p.urg][0]}</span><span class="pill ${PST[p.status][1]}">${PST[p.status][0]}${p.assignee?' · '+esc(person(p.assignee).name):''}</span></div>
+    <h3>${esc(p.inst)} · ${esc(p.ref)}</h3><p>${esc(p.topic)}</p>
+    <div class="kv"><span>נדרש: <b>${esc(p.need)}</b></span><span>${esc(p.age)}</span><span>הוזן ע״י ${esc(person(p.by).name)} · ${fmtShort(p.created)}</span></div>
+    <div class="row">${p.status==='open'?`<button class="btn sm" data-act="takeCase" data-id="${p.id}">אני לוקח/ת</button>`:''}${p.status==='taken'&&p.assignee===S.meId?`<button class="btn sm" data-act="closeCase" data-id="${p.id}">סימון כטופל</button><button class="btn sm ghost" data-act="releaseCase" data-id="${p.id}">החזרה למאגר</button>`:''}</div>
+  </article>`).join(''):'<div class="empty">אין פניות בסינון הזה.</div>'}</div>
+  <button class="btn fab" data-act="addPool">${ic('plus','width="18" height="18"')}פנייה חדשה</button>`;
+}
+function vEmergency(){
+  const yr=String(NOW.getFullYear());const mine=S.emergencies.sort((a,b)=>b.date.localeCompare(a.date));
+  const thisYear=mine.filter(e=>e.date.startsWith(yr));
+  return `<div class="kpis"><div class="kpi"><b class="num">${thisYear.length}</b><span>אירועים השנה</span></div><div class="kpi"><b class="num">${thisYear.reduce((t,e)=>t+Number(e.hours||0),0)}</b><span>שעות התערבות</span></div><div class="kpi"><b class="num">${mine.filter(e=>e.followUp&&e.status!=='נסגר').length}</b><span>במעקב</span></div></div>
+  <button class="btn block" data-act="addEmergency" style="background:var(--rose);color:#fff">${ic('siren','width="18" height="18"')}דיווח על אירוע חירום</button>
+  <div class="stack">${mine.map(e=>`<article class="case ${e.followUp&&e.status!=='נסגר'?'u-high':''}">
+    <div class="row wrap"><span class="pill p-high">${esc(e.type)}</span><span class="pill ${e.status==='נסגר'?'p-closed':'p-mid'}">${esc(e.status)}</span></div>
+    <h3>${esc(e.inst)}</h3><p>${esc(e.actions)}</p>
+    <div class="kv"><span class="num">${fmtDay(e.date)}</span><span>תפקיד: <b>${esc(e.role)}</b></span><span class="num">${e.hours} שעות</span>${e.team.length?`<span>צוות: ${e.team.map(t=>esc(person(t).name)).join(', ')}</span>`:''}</div>
+    ${e.status!=='נסגר'?`<div class="row"><button class="btn sm ghost" data-act="closeEm" data-id="${e.id}">סגירת האירוע</button></div>`:''}
+  </article>`).join('')}</div>`;
+}
+
+function vMore(){
+  const items=[['files','מסמכים וטפסים','טפסי הסכמה, ויתור סודיות, תבניות ונהלים','file'],['info','לוח מידע','Wi-Fi, קודים, חניה ומדפסת','key'],['contacts','אנשי קשר','תחנות אחרות, גורמי חוץ וחירום','phone'],['notices','הודעות התחנה','עדכונים מהנהלת התחנה','mega'],['profile','הפרופיל שלי','תפקיד, הגדרות ונתוני הדגמה','user']];
+  return `<h1 class="view-title">עוד</h1><div class="list">${items.map(([k,t,m,i])=>`<button class="li" data-go="${k}"><span class="lic">${ic(i)}</span><div class="grow"><div class="ttl">${t}</div><div class="meta">${m}</div></div>${ic('chevL','class="chev"')}</button>`).join('')}</div>`;
+}
+const back=`<button class="link" data-go="more" style="align-self:flex-start">→ חזרה</button>`;
+function vFiles(){
+  const cats=['הכל',...new Set(S.files.map(f=>f.cat))];const list=S.files.filter(f=>UI.fileCat==='הכל'||f.cat===UI.fileCat);
+  const groups={};list.forEach(f=>(groups[f.cat]=groups[f.cat]||[]).push(f));
+  return `${back}<div class="stack"><h1 class="view-title">מסמכים וטפסים</h1><span class="sub">הקבצים שכולם משתמשים בהם בתחילת טיפול</span></div>
+  <div class="chips">${cats.map(c=>`<button class="chip" aria-pressed="${UI.fileCat===c}" data-act="fileCat" data-k="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+  ${Object.entries(groups).map(([c,fs])=>`<section class="sec"><div class="sec-h"><h2>${esc(c)}</h2><span class="sub">${fs.length}</span></div><div class="list">${fs.map(f=>`<button class="li" data-act="file" data-id="${f.id}"><span class="lic" style="font-size:10px;font-weight:700">${esc(f.ext)}</span><div class="grow"><div class="ttl">${esc(f.name)}</div><div class="meta num">עודכן ${fmtShort(f.updated)} · ${esc(person(f.by).name)}</div></div>${ic('chevL','class="chev"')}</button>`).join('')}</div></section>`).join('')}
+  <button class="btn fab" data-act="addFile">${ic('upload','width="18" height="18"')}העלאת קובץ</button>`;
+}
+function vInfo(){
+  return `${back}<div class="stack"><h1 class="view-title">לוח מידע</h1><span class="sub">מה שכל מי שמגיע לתחנה צריך לדעת</span></div>
+  <div class="tiles">${S.info.map(x=>{const shown=UI.revealed[x.id];return `<div class="tile ${x.wide?'wide':''}"><span class="lbl">${esc(x.lbl)}</span>${x.val?`<span class="val ${x.rtl?'rtl':''}">${esc(x.val)}</span>`:''}${x.secret!==undefined&&x.secret!==''?`<span class="val num">${shown?esc(x.secret):'••••••'}</span>`:''}
+    <div class="acts">${x.secret?`<button class="btn sm ghost" data-act="reveal" data-id="${x.id}" aria-label="הצגה">${ic('eye','width="16" height="16"')}${shown?'הסתרה':'הצגה'}</button><button class="btn sm ghost" data-act="copy" data-v="${esc(x.secret)}">${ic('copy','width="16" height="16"')}העתקה</button>`:''}${role()==='manager'?`<button class="btn sm ghost" data-act="editInfo" data-id="${x.id}">עריכה</button>`:''}</div></div>`}).join('')}</div>
+  ${role()==='manager'?'<button class="btn ghost block" data-act="editInfo">הוספת פריט</button>':'<div class="sub">רק הנהלת התחנה יכולה לערוך את הלוח. אפשר להחליף תפקיד בפרופיל.</div>'}`;
+}
+function vContacts(){
+  const groups={};S.contacts.forEach(c=>(groups[c.grp]=groups[c.grp]||[]).push(c));
+  const staff=S.staff.filter(p=>p.id!==S.meId);
+  return `${back}<div class="stack"><h1 class="view-title">אנשי קשר</h1><span class="sub">מספרי 03-000 הם לדוגמה</span></div>
+  <section class="sec"><div class="sec-h"><h2>הצוות שלנו</h2></div><div class="list">${staff.map(p=>`<div class="li"><span class="avatar" style="width:34px;height:34px;font-size:12px">${initials(p.name)}</span><div class="grow"><div class="ttl">${esc(p.name)}</div><div class="meta">${esc(p.title)}</div></div></div>`).join('')}</div></section>
+  ${Object.entries(groups).map(([g,cs])=>`<section class="sec"><div class="sec-h"><h2>${esc(g)}</h2></div><div class="list">${cs.map(c=>`<div class="li"><span class="lic">${ic(g==='חירום'?'siren':'phone')}</span><div class="grow"><div class="ttl">${esc(c.name)}</div><div class="meta">${esc(c.who)}</div></div><span class="num" style="direction:ltr;font-weight:600">${esc(c.phone)}</span><button class="iconbtn" data-act="copy" data-v="${esc(c.phone)}" aria-label="העתקת מספר">${ic('copy')}</button></div>`).join('')}</div></section>`).join('')}`;
+}
+function vNotices(){
+  return `${back}<div class="stack"><h1 class="view-title">הודעות התחנה</h1></div>${role()==='manager'?'<button class="btn block" data-act="addNotice">הודעה חדשה</button>':''}
+  <div class="card">${S.notices.map(n=>`<div class="notice"><span class="lic" style="width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent)">${ic('mega','width="19" height="19"')}</span><div class="grow"><b>${esc(n.title)}</b><div style="font-size:13.5px">${esc(n.body)}</div><div class="when">${esc(person(n.by).name)} · ${fmtShort(n.date)}</div></div></div>`).join('')}</div>`;
+}
+function vProfile(){
+  const m=me();
+  const roles=[['s1','פסיכולוגית מדריכה','נועה לוי'],['s2','מנהלת התחנה','דנה כהן'],['s6','מתמחה','רותם בן דוד']];
+  return `${back}<div class="card row"><span class="avatar" style="width:56px;height:56px;font-size:18px">${initials(m.name)}</span><div class="grow"><b style="font-size:18px">${esc(m.name)}</b><div class="sub">${esc(m.title)}</div></div></div>
+  <section class="sec"><div class="sec-h"><h2>לראות את האפליקציה בתור</h2></div><div class="sub">כל תפקיד רואה מסכים קצת אחרים: מנהלת רואה את הצוות ועורכת את לוח המידע, ומתמחה מבקשת הדרכה ועוקבת אחרי השעות.</div>
+  <div class="list">${roles.map(([id,l,n])=>`<button class="li" data-act="switchMe" data-id="${id}"><span class="avatar" style="width:34px;height:34px;font-size:12px">${initials(n)}</span><div class="grow"><div class="ttl">${l}</div><div class="meta">${n}</div></div>${S.meId===id?'<span class="pill p-open">פעיל</span>':''}</button>`).join('')}</div></section>
+  <section class="sec"><div class="sec-h"><h2>נתוני הדגמה</h2></div><div class="sub">הנתונים נשמרים רק בדפדפן הזה. איפוס מחזיר את הדוגמאות המקוריות.</div><button class="btn danger" data-act="reset">איפוס נתוני ההדגמה</button></section>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const v=UI.view;
+  const map={home:vHome,attendance:vAttendance,calendar:vCalendar,cases:vCases,more:vMore,files:vFiles,info:vInfo,contacts:vContacts,notices:vNotices,profile:vProfile};
+  document.getElementById('view').innerHTML=(map[v]||vHome)();
+  const active=PARENT[v]||v;
+  document.getElementById('nav').innerHTML=TABS.map(t=>`<button data-go="${t.k}" ${active===t.k?'aria-current="page"':''}>${ic(t.i)}<span>${t.l}</span></button>`).join('');
+  const m=me();document.getElementById('meAvatar').textContent=initials(m.name);
+  const n=notifs().length;const b=document.getElementById('notifCount');b.hidden=!n;b.textContent=n;
+}
+
+/* ---------- sheet & toast ---------- */
+let sheetSubmit=null;
+function sheet(title,html,onSubmit,submitLabel='שמירה'){
+  closeSheet();
+  const d=document.createElement('div');d.className='scrim';d.id='scrim';
+  d.innerHTML=`<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><h2>${esc(title)}</h2>${onSubmit?`<form class="f" id="sheetForm">${html}<div class="row"><button class="btn grow" type="submit">${submitLabel}</button><button class="btn ghost" type="button" data-act="closeSheet">ביטול</button></div></form>`:html}</div>`;
+  document.body.appendChild(d);sheetSubmit=onSubmit;
+  d.addEventListener('click',e=>{if(e.target===d)closeSheet()});
+  const f=d.querySelector('#sheetForm');if(f)f.addEventListener('submit',e=>{e.preventDefault();const data=Object.fromEntries(new FormData(f));data._all=new FormData(f);if(sheetSubmit(data,f)!==false){closeSheet();save();render()}});
+  const first=d.querySelector('input,select,textarea,button');if(first)first.focus({preventScroll:true});
+}
+function closeSheet(){const d=document.getElementById('scrim');if(d)d.remove()}
+let tt;function toast(msg){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=msg;clearTimeout(tt);tt=setTimeout(()=>t.remove(),2400)}
+const opt=(arr,sel)=>arr.map(x=>{const [v,l]=Array.isArray(x)?x:[x,x];return `<option value="${esc(v)}" ${v===sel?'selected':''}>${esc(l)}</option>`}).join('');
+const fld=(label,inner,hint)=>`<div class="fld"><label>${label}</label>${inner}${hint?`<span class="hint">${hint}</span>`:''}</div>`;
+const roomFree=(room,date,h,ignoreId)=>!S.bookings.some(b=>b.room===room&&b.date===date&&b.h===h&&b.id!==ignoreId);
+
+/* ---------- forms ---------- */
+function formAbsence(pre){
+  sheet('דיווח היעדרות',`
+    ${fld('סוג','<select name="type" id="abType">'+opt(ABS_TYPES.map(k=>[k,DAY_TYPES[k].l]),pre&&pre.type)+'</select>')}
+    <div class="two">${fld('מתאריך',`<input type="date" name="from" id="abFrom" required value="${pre&&pre.from||TODAY}">`)}${fld('עד תאריך',`<input type="date" name="to" id="abTo" required value="${pre&&pre.to||TODAY}">`)}</div>
+    ${fld('אישור (אישור מחלה, צו מילואים)','<input type="file" name="file" id="abFile" accept="image/*,.pdf">','בגרסה המלאה הקובץ נשמר בתיק העובד')}
+    ${fld('הערה','<input name="note" id="abNote" placeholder="לא חובה">')}`,d=>{
+      if(d.to<d.from){toast('תאריך הסיום מוקדם מתאריך ההתחלה');return false}
+      const file=d.file&&d.file.name?d.file.name:'';
+      S.absences.push({id:uid(),who:S.meId,type:d.type,from:d.from,to:d.to,note:d.note,file});
+      for(let x=parse(d.from);iso(x)<=d.to;x=addDays(x,1))delete S.att[iso(x)];
+      toast(`${DAY_TYPES[d.type].l} דווחה`);
+    },'דיווח');
+}
+function formDay(ds){
+  const a=S.att[ds]||{};const t=dayTypeFor(S.meId,ds);
+  sheet(fmtDay(ds),`
+    ${fld('סוג היום','<select name="type" id="dType">'+opt(Object.keys(DAY_TYPES).map(k=>[k,DAY_TYPES[k].l]),t||'office')+'</select>')}
+    <div class="two">${fld('כניסה',`<input type="time" name="in" id="dIn" value="${a.in||''}">`)}${fld('יציאה',`<input type="time" name="out" id="dOut" value="${a.out||''}">`)}</div>
+    ${fld('הערה',`<input name="note" id="dNote" value="${esc(a.note||'')}" placeholder="למשל: ביקור בגן רימון">`)}`,d=>{
+      const abs=DAY_TYPES[d.type].absence;
+      S.att[ds]={type:d.type,in:abs?'':d.in,out:abs?'':d.out,note:d.note};toast('הדיווח נשמר');
+    });
+}
+function pickType(){
+  const t=dayTypeFor(S.meId,TODAY);
+  sheet('איפה עובדים היום?',`<div class="list">${WORK_TYPES.map(k=>`<button class="li" data-act="setType" data-k="${k}"><i class="dot" style="background:${DAY_TYPES[k].c};width:12px;height:12px"></i><div class="grow ttl">${DAY_TYPES[k].l}</div>${t===k?'<span class="pill p-open">נבחר</span>':''}</button>`).join('')}</div>`);
+}
+function formSession(pre){
+  const isIntern=role()==='intern';
+  const interns=S.staff.filter(p=>p.role==='intern'&&p.supervisor===(isIntern?me().supervisor:S.meId));
+  const d0=pre&&pre.date||workdays(addDays(NOW,1),1)[0];
+  sheet(isIntern?'בקשת מפגש הדרכה':'קביעת מפגש הדרכה',`
+    ${isIntern?`<div class="sub">הבקשה תישלח ל${esc(person(me().supervisor).name)} לאישור.</div>`:fld('מתמחה','<select name="intern" id="sIntern">'+opt(interns.map(p=>[p.id,p.name]))+'</select>')}
+    <div class="two">${fld('תאריך',`<input type="date" name="date" id="sDate" required value="${d0}" min="${TODAY}">`)}${fld('שעה','<select name="start" id="sStart">'+opt(HOURS.map(h=>`${pad(h)}:00`),'12:00')+'</select>')}</div>
+    <div class="two">${fld('משך','<select name="dur" id="sDur">'+opt([['45','45 דק׳'],['60','שעה'],['90','שעה וחצי']],'60')+'</select>')}${fld('אופן','<select name="mode" id="sMode">'+opt(['פנים אל פנים','זום'])+'</select>')}</div>
+    ${fld('חדר','<select name="room" id="sRoom">'+opt([['','בלי חדר'],...ROOMS.map(r=>[r,r])],'חדר הדרכה')+'</select>','החדר יוזמן אוטומטית אם הוא פנוי')}
+    ${fld('נושא / סדר יום','<textarea name="topic" id="sTopic" placeholder="למשל: הכנת הצגת מקרה, קריאת פרוטוקול אבחון"></textarea>')}`,d=>{
+      const h=Number(d.start.slice(0,2));const hrs=Math.ceil(Number(d.dur)/60);
+      const room=d.mode==='זום'?'':d.room;
+      if(room)for(let i=0;i<hrs;i++)if(!roomFree(room,d.date,h+i)){toast(`${room} תפוס ב-${pad(h+i)}:00. בחרו שעה או חדר אחרים`);return false}
+      const s={id:uid(),intern:isIntern?S.meId:d.intern,sup:isIntern?me().supervisor:S.meId,date:d.date,start:d.start,dur:Number(d.dur),mode:d.mode,room,topic:d.topic,status:isIntern?'requested':'scheduled',notes:''};
+      S.sessions.push(s);
+      if(room&&!isIntern)for(let i=0;i<hrs;i++)S.bookings.push({id:uid(),room,date:d.date,h:h+i,by:S.meId,what:'הדרכת מתמחה',session:s.id});
+      toast(isIntern?'הבקשה נשלחה':'המפגש נקבע'+(room&&!isIntern?' והחדר הוזמן':''));
+    },isIntern?'שליחת בקשה':'קביעה');
+}
+function sessionSheet(id){
+  const s=S.sessions.find(x=>x.id===id);const isSup=s.sup===S.meId;
+  const btns=[];
+  if(isSup&&s.status==='requested')btns.push(`<button class="btn" data-act="approveSession" data-id="${id}">אישור המפגש</button>`);
+  if(isSup&&s.status==='scheduled')btns.push(`<button class="btn" data-act="doneSession" data-id="${id}">סימון שהתקיים</button>`);
+  if(s.status!=='done'&&s.status!=='cancelled')btns.push(`<button class="btn danger" data-act="cancelSession" data-id="${id}">ביטול</button>`);
+  sheet('מפגש הדרכה',`<div class="stack">
+    <div class="kv" style="font-size:14px;color:var(--ink)"><span>מתמחה: <b>${esc(person(s.intern).name)}</b></span><span>מדריכה: <b>${esc(person(s.sup).name)}</b></span></div>
+    <div class="sub num">${fmtDay(s.date)} · ${s.start} · ${s.dur} דק׳ · ${esc(s.room||s.mode)}</div>
+    ${s.topic?`<div><b>נושא:</b> ${esc(s.topic)}</div>`:''}
+    ${s.notes?`<div><b>סיכום:</b> ${esc(s.notes)}</div>`:''}
+    <div class="row wrap">${btns.join('')}<button class="btn ghost" data-act="closeSheet">סגירה</button></div></div>`);
+}
+function formBook(room,h){
+  sheet('הזמנת חדר',`<div class="sub num">${esc(room)} · ${fmtDay(UI.roomDay)}</div>
+    <div class="two">${fld('משעה','<select name="h" id="bH">'+opt(HOURS.map(x=>[String(x),`${pad(x)}:00`]),String(h))+'</select>')}${fld('משך','<select name="n" id="bN">'+opt([['1','שעה'],['2','שעתיים'],['3','3 שעות']],'1')+'</select>')}</div>
+    ${fld('מטרה','<select name="what" id="bWhat">'+opt(['טיפול','טיפול במשחק','שיחת הורים','אבחון','הדרכת מתמחה','ישיבה'])+'</select>','בלי שמות מטופלים')}`,d=>{
+      const h0=Number(d.h),n=Number(d.n);
+      for(let i=0;i<n;i++){if(h0+i>HOURS[HOURS.length-1]||!roomFree(room,UI.roomDay,h0+i)){toast(`החדר תפוס או סגור ב-${pad(h0+i)}:00`);return false}}
+      for(let i=0;i<n;i++)S.bookings.push({id:uid(),room,date:UI.roomDay,h:h0+i,by:S.meId,what:d.what});
+      toast(`${room} הוזמן`);
+    },'הזמנה');
+}
+function formPool(pre){
+  sheet('פנייה חדשה למאגר',`
+    <div class="privacy">${ic('shield','width="18" height="18" style="flex:none;color:var(--sun)"')}<span>בלי שם מלא ובלי ת״ז. ראשי תיבות וכיתה מספיקים.</span></div>
+    ${fld('מוסד חינוכי',`<input name="inst" id="pInst" required value="${esc(pre&&pre.inst||'')}" placeholder="למשל: בי״ס יסודי הדר">`)}
+    <div class="two">${fld('שלב','<select name="age" id="pAge">'+opt(AGES,'יסודי')+'</select>')}${fld('מי / מה',`<input name="ref" id="pRef" required value="${esc(pre&&pre.ref||'')}" placeholder="תלמיד כיתה ג׳ (א.ש.)">`)}</div>
+    ${fld('מה צריך',`<textarea name="topic" id="pTopic" required placeholder="תיאור קצר של הצורך">${esc(pre&&pre.topic||'')}</textarea>`)}
+    <div class="two">${fld('מי צריך לטפל','<select name="need" id="pNeed">'+opt(NEEDS)+'</select>')}${fld('דחיפות','<select name="urg" id="pUrg">'+opt([['high','דחוף'],['mid','בינוני'],['low','רגיל']],pre&&pre.urg||'mid')+'</select>')}</div>`,d=>{
+      S.pool.unshift({id:uid(),created:TODAY,by:S.meId,inst:d.inst,age:d.age,ref:d.ref,topic:d.topic,need:d.need,urg:d.urg,status:'open',assignee:''});
+      UI.poolFilter='open';toast('הפנייה נוספה למאגר');
+    },'הוספה למאגר');
+}
+function formEmergency(){
+  const team=S.staff.filter(p=>p.id!==S.meId);
+  sheet('דיווח על אירוע חירום',`
+    <div class="two">${fld('תאריך',`<input type="date" name="date" id="eDate" required value="${TODAY}">`)}${fld('שעות',`<input type="number" name="hours" id="eHours" min="0.5" step="0.5" value="2" required>`)}</div>
+    ${fld('מוסד חינוכי','<input name="inst" id="eInst" required placeholder="שם המוסד">')}
+    <div class="two">${fld('סוג האירוע','<select name="type" id="eType">'+opt(EM_TYPES)+'</select>')}${fld('התפקיד שלי','<select name="role" id="eRole">'+opt(EM_ROLES)+'</select>')}</div>
+    <div class="fld"><span class="lb">מי עוד היה בצוות</span><div class="checks">${team.map(p=>`<label><input type="checkbox" name="team" value="${p.id}">${esc(p.name)}</label>`).join('')}</div></div>
+    ${fld('מה נעשה','<textarea name="actions" id="eAct" required placeholder="שיחות, מפגשים כיתתיים, הדרכת צוות, זיהוי תלמידים בסיכון"></textarea>')}
+    <div class="checks"><label><input type="checkbox" name="followUp" id="eFollow" value="1">נדרש המשך מעקב</label><label><input type="checkbox" name="toPool" id="eToPool" value="1">פתיחת פנייה במאגר</label></div>
+    <div class="privacy">${ic('shield','width="18" height="18" style="flex:none;color:var(--sun)"')}<span>בלי פרטים מזהים של תלמידים או משפחות.</span></div>`,d=>{
+      const team=d._all.getAll('team');
+      S.emergencies.unshift({id:uid(),date:d.date,inst:d.inst,type:d.type,role:d.role,hours:Number(d.hours),team,actions:d.actions,followUp:!!d.followUp,status:d.followUp?'בהמשך מעקב':'נסגר'});
+      if(!S.att[d.date]||!S.att[d.date].in)S.att[d.date]=Object.assign({in:'',out:''},S.att[d.date],{type:'emergency'});
+      toast('האירוע תועד');
+      if(d.toPool){setTimeout(()=>formPool({inst:d.inst,ref:'המשך מעקב אחרי אירוע',topic:`${d.type}: ${d.actions}`,urg:'high'}),50)}
+    },'שמירת הדיווח');
+}
+function formEvent(){
+  sheet('אירוע חדש ביומן התחנה',`
+    ${fld('כותרת','<input name="title" id="evTitle" required placeholder="למשל: ישיבת צוות">')}
+    ${fld('סוג','<select name="type" id="evType">'+opt(Object.entries(EV_TYPES).map(([k,v])=>[k,v.l]))+'</select>')}
+    ${fld('תאריך',`<input type="date" name="date" id="evDate" required value="${UI.calDay}">`)}
+    <div class="two">${fld('משעה','<input type="time" name="start" id="evStart" required value="13:00">')}${fld('עד','<input type="time" name="end" id="evEnd" required value="14:00">')}</div>
+    ${fld('מקום','<input name="place" id="evPlace" value="חדר ישיבות">')}`,d=>{
+      S.events.push({id:uid(),type:d.type,title:d.title,date:d.date,start:d.start,end:d.end,place:d.place,rsvp:[S.meId]});UI.calDay=d.date;toast('האירוע נוסף ליומן התחנה');
+    },'הוספה');
+}
+function formNotice(){
+  sheet('הודעה לכל התחנה',`${fld('כותרת','<input name="title" id="nTitle" required>')}${fld('תוכן','<textarea name="body" id="nBody" required></textarea>')}`,d=>{S.notices.unshift({id:uid(),date:TODAY,by:S.meId,title:d.title,body:d.body});toast('ההודעה פורסמה')},'פרסום');
+}
+function formInfo(id){
+  const x=id?S.info.find(i=>i.id===id):{lbl:'',val:'',secret:''};
+  sheet(id?'עריכת פריט':'פריט חדש בלוח',`${fld('כותרת',`<input name="lbl" id="iLbl" required value="${esc(x.lbl)}">`)}${fld('ערך גלוי',`<input name="val" id="iVal" value="${esc(x.val||'')}">`)}${fld('ערך מוסתר (סיסמה / קוד)',`<input name="secret" id="iSec" value="${esc(x.secret||'')}">`)}${id?`<button type="button" class="btn danger" data-act="delInfo" data-id="${id}">מחיקת הפריט</button>`:''}`,d=>{
+    if(id)Object.assign(x,{lbl:d.lbl,val:d.val,secret:d.secret});else S.info.push({id:uid(),lbl:d.lbl,val:d.val,secret:d.secret,rtl:1});toast('הלוח עודכן');
+  });
+}
+function formFile(){
+  sheet('העלאת קובץ משותף',`${fld('קובץ','<input type="file" name="file" id="fFile" required>')}${fld('שם לתצוגה','<input name="name" id="fName" placeholder="ברירת מחדל: שם הקובץ">')}${fld('תיקייה','<select name="cat" id="fCat">'+opt([...new Set(S.files.map(f=>f.cat))])+'</select>')}`,d=>{
+    const f=d.file;const name=d.name||(f&&f.name?f.name.replace(/\.[^.]+$/,''):'קובץ');const ext=f&&f.name&&f.name.includes('.')?f.name.split('.').pop().toUpperCase().slice(0,4):'FILE';
+    S.files.push({id:uid(),cat:d.cat,name,ext,updated:TODAY,by:S.meId});toast('הקובץ נוסף לתיקייה');
+  },'העלאה');
+}
+function fileSheet(id){
+  const f=S.files.find(x=>x.id===id);
+  sheet(f.name,`<div class="stack"><div class="sub">${esc(f.cat)} · ${esc(f.ext)} · עודכן ${fmtShort(f.updated)} ע״י ${esc(person(f.by).name)}</div>
+  <div class="card" style="background:var(--surface-2)">בגרסה המלאה הקובץ נפתח כאן לצפייה, להורדה או לשליחה להורים לחתימה דיגיטלית.</div>
+  <div class="row"><button class="btn grow" data-act="copy" data-v="${esc(f.name)}">העתקת שם הטופס</button><button class="btn ghost" data-act="closeSheet">סגירה</button></div></div>`);
+}
+function notifSheet(){
+  const n=notifs();
+  sheet('התראות',n.length?`<div class="list">${n.map(x=>`<button class="li" data-go="${x.go}"><div class="grow"><div class="ttl">${esc(x.t)}</div><div class="meta">${esc(x.s)}</div></div>${ic('chevL','class="chev"')}</button>`).join('')}</div>`:'<div class="empty">אין התראות חדשות.</div>');
+}
+
+/* ---------- actions ---------- */
+const A={
+  punchIn(){const a=S.att[TODAY]||{type:'office'};a.in=nowHM();a.out='';if(!a.type||DAY_TYPES[a.type].absence)a.type='office';S.att[TODAY]=a;toast(`כניסה נרשמה ב-${a.in}`)},
+  punchOut(){S.att[TODAY].out=nowHM();toast(`יציאה נרשמה ב-${S.att[TODAY].out}`)},
+  editToday(){formDay(TODAY);return 1},
+  pickType(){pickType();return 1},
+  setType(el){const a=S.att[TODAY]||{in:'',out:''};a.type=el.dataset.k;S.att[TODAY]=a;closeSheet();toast(DAY_TYPES[a.type].l)},
+  addAbsence(){formAbsence();return 1},
+  delAbs(el){S.absences=S.absences.filter(a=>a.id!==el.dataset.id);toast('ההיעדרות בוטלה')},
+  attDay(el){formDay(el.dataset.d);return 1},
+  attPrev(){UI.attMonth=new Date(UI.attMonth.getFullYear(),UI.attMonth.getMonth()-1,1)},
+  attNext(){UI.attMonth=new Date(UI.attMonth.getFullYear(),UI.attMonth.getMonth()+1,1)},
+  calPrev(){UI.calMonth=new Date(UI.calMonth.getFullYear(),UI.calMonth.getMonth()-1,1)},
+  calNext(){UI.calMonth=new Date(UI.calMonth.getFullYear(),UI.calMonth.getMonth()+1,1)},
+  calDay(el){UI.calDay=el.dataset.d},
+  calTab(el){UI.calTab=el.dataset.k},
+  caseTab(el){UI.caseTab=el.dataset.k},
+  rsvp(el){const e=S.events.find(x=>x.id===el.dataset.id);const i=e.rsvp.indexOf(S.meId);if(i>=0){e.rsvp.splice(i,1);toast('ההגעה בוטלה')}else{e.rsvp.push(S.meId);toast('נרשמת לאירוע')}},
+  addEvent(){formEvent();return 1},
+  roomDay(el){UI.roomDay=el.dataset.d},
+  book(el){formBook(el.dataset.room,Number(el.dataset.h));return 1},
+  booking(el){const b=S.bookings.find(x=>x.id===el.dataset.id);const p=person(b.by);
+    sheet(`${b.room} · ${pad(b.h)}:00`,`<div class="stack"><div><b>${esc(p.name)}</b> · ${esc(b.what)}</div><div class="sub">${fmtDay(b.date)}</div><div class="row">${b.by===S.meId?`<button class="btn danger" data-act="cancelBooking" data-id="${b.id}">ביטול ההזמנה</button>`:''}<button class="btn ghost" data-act="closeSheet">סגירה</button></div></div>`);return 1},
+  cancelBooking(el){S.bookings=S.bookings.filter(b=>b.id!==el.dataset.id);closeSheet();toast('ההזמנה בוטלה')},
+  goRooms(){go('rooms');return 1},goFiles(){go('files');return 1},
+  addSession(){formSession();return 1},
+  session(el){sessionSheet(el.dataset.id);return 1},
+  approveSession(el){const s=S.sessions.find(x=>x.id===el.dataset.id);const h=Number(s.start.slice(0,2));const hrs=Math.ceil(s.dur/60);
+    if(s.room){for(let i=0;i<hrs;i++)if(!roomFree(s.room,s.date,h+i)){s.room='';break}if(s.room)for(let i=0;i<hrs;i++)S.bookings.push({id:uid(),room:s.room,date:s.date,h:h+i,by:S.meId,what:'הדרכת מתמחה',session:s.id})}
+    s.status='scheduled';closeSheet();toast(s.room?'המפגש אושר והחדר הוזמן':'המפגש אושר. החדר תפוס, כדאי לבחור חדר אחר')},
+  doneSession(el){const s=S.sessions.find(x=>x.id===el.dataset.id);
+    sheet('סיכום מפגש',fld('מה עלה במפגש (לא חובה)','<textarea name="notes" id="snNotes"></textarea>')+fld('משך בפועל (דק׳)',`<input type="number" name="dur" id="snDur" value="${s.dur}" min="15" step="15">`),d=>{s.status='done';s.notes=d.notes;s.dur=Number(d.dur)||s.dur;toast('נרשם ביומן ההדרכה')},'שמירה');return 1},
+  cancelSession(el){const s=S.sessions.find(x=>x.id===el.dataset.id);s.status='cancelled';S.bookings=S.bookings.filter(b=>b.session!==s.id);closeSheet();toast('המפגש בוטל')},
+  setTarget(){sheet('יעד שעות הדרכה',fld('שעות ליעד',`<input type="number" name="t" id="tgt" value="${S.internTarget}" min="1">`,'מגדירים לפי דרישות ההתמחות של כל מתמחה'),d=>{S.internTarget=Number(d.t)||S.internTarget});return 1},
+  poolFilter(el){UI.poolFilter=el.dataset.k},
+  addPool(){formPool();return 1},
+  takeCase(el){const p=S.pool.find(x=>x.id===el.dataset.id);p.status='taken';p.assignee=S.meId;toast('הפנייה אצלך')},
+  closeCase(el){const p=S.pool.find(x=>x.id===el.dataset.id);p.status='closed';toast('הפנייה סומנה כטופלה')},
+  releaseCase(el){const p=S.pool.find(x=>x.id===el.dataset.id);p.status='open';p.assignee='';toast('הפנייה חזרה למאגר')},
+  addEmergency(){formEmergency();return 1},
+  closeEm(el){const e=S.emergencies.find(x=>x.id===el.dataset.id);e.status='נסגר';toast('האירוע נסגר')},
+  fileCat(el){UI.fileCat=el.dataset.k},
+  file(el){fileSheet(el.dataset.id);return 1},
+  addFile(){formFile();return 1},
+  reveal(el){UI.revealed[el.dataset.id]=!UI.revealed[el.dataset.id]},
+  copy(el){const v=el.dataset.v;const ok=()=>toast('הועתק');
+    try{navigator.clipboard.writeText(v).then(ok,()=>toast(v))}catch(e){toast(v)}return 1},
+  editInfo(el){formInfo(el.dataset.id);return 1},
+  delInfo(el){S.info=S.info.filter(i=>i.id!==el.dataset.id);closeSheet();toast('הפריט נמחק')},
+  addNotice(){formNotice();return 1},
+  notifs(){notifSheet();return 1},
+  switchMe(el){S.meId=el.dataset.id;toast(`מוצגת כעת: ${person(S.meId).name}`)},
+  reset(){sheet('לאפס את נתוני ההדגמה?','<div class="stack"><div class="sub">כל מה שהוספת יימחק והדוגמאות יחזרו.</div><div class="row"><button class="btn danger grow" data-act="doReset">איפוס</button><button class="btn ghost" data-act="closeSheet">ביטול</button></div></div>');return 1},
+  doReset(){S=seed();closeSheet();toast('הנתונים אופסו')},
+  closeSheet(){closeSheet();return 1},
+};
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g){e.preventDefault();closeSheet();go(g.dataset.go);return}
+  const a=e.target.closest('[data-act]');if(!a||!A[a.dataset.act])return;
+  e.preventDefault();
+  const noRender=A[a.dataset.act](a);
+  if(!noRender){save();render()}
+});
+
+/* ---------- boot ---------- */
+const h=(location.hash||'').slice(1);
+if(h&&['home','attendance','calendar','cases','more','files','info','contacts','notices','profile','rooms','supervision','events','pool','emergency'].includes(h))go(h);else render();
+setInterval(()=>{if(UI.view==='home'&&!document.getElementById('scrim'))render()},60000);
+})();
+</script>
+
+</html>
